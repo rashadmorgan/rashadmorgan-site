@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Retrospect — Post Incident Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --nav:#032D42;
+    --nav-2:#0A4257;
+    --canvas:#F1F3F5;
+    --card:#FFFFFF;
+    --line:#DDE1E6;
+    --line-soft:#EBEEF0;
+    --ink:#1B1B1B;
+    --ink-2:#5B6770;
+    --teal:#1F8476;
+    --teal-dk:#166257;
+    --green:#62D84E;
+    --amber:#C8811B;
+    --red:#B3231F;
+    --blue:#205CB3;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;height:100%}
+  body{
+    background:var(--canvas);
+    color:var(--ink);
+    font-family:Lato,system-ui,-apple-system,sans-serif;
+    font-size:14px;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .topbar{
+    background:var(--nav);color:#fff;height:48px;
+    display:flex;align-items:center;padding:0 16px;gap:16px;
+  }
+  .brand{font-weight:900;letter-spacing:.02em;font-size:16px}
+  .brand span{font-weight:400;opacity:.7}
+  .topbar .spacer{flex:1}
+  .avatar{
+    width:28px;height:28px;border-radius:50%;
+    background:var(--teal);color:#fff;
+    display:grid;place-items:center;font-size:12px;font-weight:700;
+  }
+
+  .shell{display:flex;min-height:calc(100vh - 48px)}
+
+  .sidenav{width:208px;flex:0 0 208px;background:var(--nav-2);padding:14px 0}
+  .sidenav h4{
+    margin:0;padding:8px 18px 6px;
+    font-size:11px;font-weight:700;letter-spacing:.08em;
+    text-transform:uppercase;color:rgba(255,255,255,.55);
+  }
+  .sidenav a{
+    display:block;padding:8px 18px;
+    color:rgba(255,255,255,.86);text-decoration:none;font-size:13.5px;
+    border-left:3px solid transparent;
+  }
+  .sidenav a:hover{background:rgba(255,255,255,.07)}
+  .sidenav a.on{
+    background:rgba(255,255,255,.11);
+    border-left-color:var(--green);color:#fff;font-weight:700;
+  }
+
+  .main{flex:1;min-width:0;padding:16px 20px 48px}
+  .crumb{font-size:12.5px;color:var(--ink-2);margin-bottom:10px}
+  .crumb b{color:var(--ink)}
+
+  .card{background:var(--card);border:1px solid var(--line);border-radius:3px;margin-bottom:16px}
+  .card-hd{
+    display:flex;align-items:center;gap:12px;
+    padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap;
+  }
+  .rec-no{font-weight:900;font-size:15px;letter-spacing:.01em}
+  .rec-ti{color:var(--ink-2);font-size:14px}
+  .card-hd .spacer{flex:1}
+
+  .pill{
+    font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
+    padding:3px 9px;border-radius:11px;white-space:nowrap;
+  }
+  .pill.open{background:#FBEDE1;color:var(--amber);border:1px solid #EFD3B4}
+  .pill.res{background:#E4F2EF;color:var(--teal-dk);border:1px solid #C2E0D9}
+
+  .tabs{display:flex;border-bottom:1px solid var(--line);padding:0 16px}
+  .tab{padding:9px 14px;font-size:13px;color:var(--ink-2);border-bottom:2px solid transparent}
+  .tab.on{color:var(--ink);font-weight:700;border-bottom-color:var(--teal)}
+
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:0 26px;padding:16px}
+  .fld{margin-bottom:14px}
+  .fld.wide{grid-column:1/-1}
+  label{display:block;font-size:12px;font-weight:700;color:var(--ink-2);margin-bottom:4px}
+  input,select,textarea{
+    width:100%;font-family:inherit;font-size:13.5px;color:var(--ink);
+    background:#fff;border:1px solid var(--line);border-radius:2px;
+    padding:7px 9px;line-height:1.45;
+  }
+  input:focus,select:focus,textarea:focus{
+    outline:0;border-color:var(--blue);box-shadow:0 0 0 2px rgba(32,92,179,.18);
+  }
+  textarea{
+    min-height:190px;resize:vertical;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:12.5px;line-height:1.75;
+  }
+  .hint{font-size:11.5px;color:var(--ink-2);margin-top:4px}
+
+  .bar{
+    display:flex;align-items:center;gap:12px;
+    padding:12px 16px;border-top:1px solid var(--line);
+    background:#FAFBFC;flex-wrap:wrap;
+  }
+  .btn{
+    font-family:inherit;font-size:13px;font-weight:700;color:#fff;
+    background:var(--teal);border:1px solid var(--teal-dk);
+    border-radius:2px;padding:7px 16px;cursor:pointer;
+  }
+  .btn:hover{background:var(--teal-dk)}
+  .btn:disabled{background:#9AA5AC;border-color:#8B959B;cursor:default}
+  .btn.sec{background:#fff;color:var(--ink);border-color:var(--line)}
+  .btn.sec:hover{background:#F1F3F5}
+  .btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+  .bar .spacer{flex:1}
+  .stat{font-size:12.5px;color:var(--ink-2)}
+
+  .banner{
+    display:flex;gap:10px;padding:10px 14px;
+    border-left:3px solid var(--red);background:#FCEFEE;
+    font-size:13px;margin:0 16px 16px;
+  }
+  .banner b{display:block}
+
+  .rv{padding:18px 16px 6px}
+  .rv h3{
+    font-size:12px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;
+    color:var(--teal-dk);margin:22px 0 7px;padding-bottom:5px;
+    border-bottom:1px solid var(--line-soft);
+  }
+  .rv h3:first-of-type{margin-top:14px}
+  .rv h2{font-size:17px;font-weight:900;margin:0 0 3px}
+  .rv .sub{font-size:12.5px;color:var(--ink-2);margin:0 0 4px}
+  .rv p{margin:0 0 10px;max-width:78ch}
+  .rv ul{margin:0 0 10px;padding-left:19px;max-width:78ch}
+  .rv li{margin-bottom:5px}
+
+  table.tl{border-collapse:collapse;width:100%;max-width:720px;margin-bottom:10px}
+  table.tl td{border-bottom:1px solid var(--line-soft);padding:6px 10px 6px 0;vertical-align:top;font-size:13.5px}
+  table.tl td.t{
+    width:78px;white-space:nowrap;
+    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
+    font-size:12.5px;color:var(--blue);font-weight:700;
+  }
+
+  table.ca{border-collapse:collapse;width:100%;margin-bottom:10px}
+  table.ca th{
+    text-align:left;font-size:11px;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--ink-2);border-bottom:1px solid var(--line);padding:6px 10px 6px 0;
+  }
+  table.ca td{border-bottom:1px solid var(--line-soft);padding:7px 10px 7px 0;font-size:13.5px;vertical-align:top}
+
+  .placeholder{padding:34px 16px;color:var(--ink-2);max-width:56ch}
+  .placeholder b{display:block;color:var(--ink);font-size:15px;margin-bottom:5px}
+
+  .dots{display:inline-block;animation:bl 1.1s steps(2,start) infinite}
+  @keyframes bl{to{visibility:hidden}}
+  @media (prefers-reduced-motion:reduce){.dots{animation:none}}
+
+  @media (max-width:900px){
+    .sidenav{display:none}
+    .grid{grid-template-columns:1fr}
+    .main{padding:12px}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">Retrospect <span>| Incident Management</span></div>
+  <div class="spacer"></div>
+  <div class="avatar">RM</div>
+</div>
+
+<div class="shell">
+  <nav class="sidenav">
+    <h4>Service Desk</h4>
+    <a href="#">Overview</a>
+    <a href="#" class="on">Incidents</a>
+    <a href="#">Problems</a>
+    <a href="#">Changes</a>
+    <h4>Analysis</h4>
+    <a href="#">Post Incident Review</a>
+    <a href="#">Trends</a>
+    <a href="#">SLA performance</a>
+  </nav>
+
+  <main class="main">
+    <div class="crumb">Incidents &rsaquo; <b>New post incident review</b></div>
+
+    <section class="card">
+      <div class="card-hd">
+        <span class="rec-no">INC0010023</span>
+        <span class="rec-ti" id="hdTitle">New incident record</span>
+        <div class="spacer"></div>
+        <span class="pill open">Resolved</span>
+      </div>
+
+      <div class="tabs">
+        <div class="tab on">Incident details</div>
+        <div class="tab">Work notes</div>
+        <div class="tab">Related records</div>
+      </div>
+
+      <div class="grid">
+        <div class="fld">
+          <label for="svc">Configuration item</label>
+          <input id="svc" placeholder="Label printing service">
+        </div>
+        <div class="fld">
+          <label for="who">Affected users</label>
+          <input id="who" placeholder="~400 users across 6 branch sites">
+        </div>
+        <div class="fld">
+          <label for="sev">Priority</label>
+          <select id="sev">
+            <option>P1 — Critical</option>
+            <option selected>P2 — High</option>
+            <option>P3 — Moderate</option>
+          </select>
+        </div>
+        <div class="fld">
+          <label for="dur">Time to resolve</label>
+          <input id="dur" placeholder="3h 40m">
+        </div>
+        <div class="fld wide">
+          <label for="notes">Work notes and timeline</label>
+          <textarea id="notes" placeholder="09:12  first ticket, warehouse can't print labels
+09:20  three more sites reporting, escalated
+09:35  ruled out the app, points at print server
+10:05  restarted spooler, no change
+10:40  signing cert expired overnight, no alert fired
+11:15  renewed and deployed, labels printing
+12:52  all sites confirmed clear"></textarea>
+          <div class="hint">Paste the notes as you took them. Timestamps, fragments, and dead ends are fine.</div>
+        </div>
+      </div>
+
+      <div id="err"></div>
+
+      <div class="bar">
+        <button class="btn" id="go">Generate review</button>
+        <button class="btn sec" id="demo" type="button">Load sample incident</button>
+        <div class="spacer"></div>
+        <span class="stat" id="status"></span>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-hd">
+        <span class="rec-no">Post Incident Review</span>
+        <div class="spacer"></div>
+        <span class="pill res" id="rvPill" style="display:none">Complete</span>
+      </div>
+      <div id="out">
+        <div class="placeholder">
+          <b>No review generated yet.</b>
+          The review follows the structure most leadership teams expect: summary, impact, timeline, root cause, the conditions that allowed it, and corrective actions with owners.
+        </div>
+      </div>
+      <div class="bar" id="outBar" style="display:none">
+        <button class="btn sec" id="copy" type="button">Copy as text</button>
+        <button class="btn sec" id="dl" type="button">Download</button>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+
+$('demo').onclick = () => {
+  $('svc').value = 'Label printing service';
+  $('who').value = '~400 users across 6 branch sites; outbound shipping halted';
+  $('dur').value = '3h 40m';
+  $('notes').value = `09:12  first ticket, warehouse can't print shipping labels
+09:20  three more sites reporting the same, escalated to me
+09:28  opened bridge, pulled in network and app owner
+09:35  ruled out the app, points at the print server
+10:05  restarted spooler service, no change
+10:22  checked event log, TLS handshake failures
+10:40  found the signing cert expired overnight, no alert fired
+11:15  renewed and deployed cert, labels printing at site 1
+11:48  rolling confirmation across remaining sites
+12:52  all six sites confirmed clear, bridge closed`;
+  $('hdTitle').textContent = 'Label printing outage across branch sites';
+};
+
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+function render(r){
+  const list = a => (a||[]).map(x => `<li>${esc(x)}</li>`).join('');
+  const tl = (r.timeline||[]).map(e =>
+    `<tr><td class="t">${esc(e.time||'')}</td><td>${esc(e.event||'')}</td></tr>`).join('');
+  const ca = (r.corrective_actions||[]).map(a =>
+    `<tr><td>${esc(a.action||'')}</td><td>${esc(a.owner||'')}</td><td>${esc(a.due||'')}</td></tr>`).join('');
+
+  return `<div class="rv">
+    <h2>${esc(r.title||'Post incident review')}</h2>
+    <p class="sub">${esc(r.severity||'')}${r.duration ? ' &nbsp;&middot;&nbsp; ' + esc(r.duration) : ''}</p>
+    <h3>Summary</h3><p>${esc(r.summary||'')}</p>
+    <h3>Impact</h3><p>${esc(r.impact||'')}</p>
+    <h3>Timeline</h3><table class="tl">${tl}</table>
+    <h3>Root cause</h3><p>${esc(r.root_cause||'')}</p>
+    <h3>Contributing factors</h3><ul>${list(r.contributing_factors)}</ul>
+    <h3>What went well</h3><ul>${list(r.what_went_well)}</ul>
+    <h3>Corrective actions</h3>
+    <table class="ca"><thead><tr><th>Action</th><th>Owner</th><th>Target</th></tr></thead><tbody>${ca}</tbody></table>
+    ${(r.open_questions||[]).length ? `<h3>Open questions</h3><ul>${list(r.open_questions)}</ul>` : ''}
+  </div>`;
+}
+
+function asText(r){
+  const L = [r.title||'Post incident review', [r.severity,r.duration].filter(Boolean).join(' | ')];
+  L.push('','SUMMARY',r.summary||'','','IMPACT',r.impact||'','','TIMELINE');
+  (r.timeline||[]).forEach(e => L.push(`  ${e.time||''}  ${e.event||''}`));
+  L.push('','ROOT CAUSE',r.root_cause||'','','CONTRIBUTING FACTORS');
+  (r.contributing_factors||[]).forEach(x => L.push('  - '+x));
+  L.push('','WHAT WENT WELL');
+  (r.what_went_well||[]).forEach(x => L.push('  - '+x));
+  L.push('','CORRECTIVE ACTIONS');
+  (r.corrective_actions||[]).forEach(a => L.push(`  - ${a.action||''}${a.owner?' ('+a.owner+')':''}${a.due?' \u2014 '+a.due:''}`));
+  if((r.open_questions||[]).length){
+    L.push('','OPEN QUESTIONS');
+    r.open_questions.forEach(x => L.push('  - '+x));
+  }
+  return L.join('\n');
+}
+
+let current = null;
+
+$('go').onclick = async () => {
+  const notes = $('notes').value.trim();
+  $('err').innerHTML = '';
+  if(!notes){
+    $('err').innerHTML = '<div class="banner"><div><b>Work notes are required.</b>Paste the incident timeline, or load the sample incident.</div></div>';
+    return;
+  }
+  $('go').disabled = true;
+  $('status').innerHTML = 'Generating review<span class="dots">&hellip;</span>';
+  $('outBar').style.display = 'none';
+  $('rvPill').style.display = 'none';
+
+  const prompt = `You are an experienced incident commander writing a blameless post incident review for an internal IT operations audience.
+
+Configuration item: ${$('svc').value || 'not specified'}
+Priority: ${$('sev').value}
+Time to resolve: ${$('dur').value || 'not specified'}
+Affected users: ${$('who').value || 'not specified'}
+
+Work notes and timeline:
+${notes}
+
+Write the review. Rules:
+- Blameless. Describe systems and conditions, never individuals at fault.
+- Separate the root cause from the contributing factors that allowed it to happen or persist undetected.
+- Corrective actions must be specific and verifiable, not "improve monitoring". Give a plausible owning function and a rough target.
+- If the notes do not support a conclusion, put it in open_questions rather than inventing detail.
+- Plain language a business reader can follow.
+
+Respond with ONLY valid JSON, no markdown fences, no preamble, exactly this shape:
+{"title":"","severity":"","duration":"","summary":"","impact":"","timeline":[{"time":"","event":""}],"root_cause":"","contributing_factors":[""],"what_went_well":[""],"corrective_actions":[{"action":"","owner":"","due":""}],"open_questions":[""]}`;
+
+  try{
+    const res = await fetch("/api/anthropic",{
+      method:"POST",
+      headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({ prompt })
+    });
+    if(!res.ok) throw new Error("proxy " + res.status);
+    const data = await res.json();
+    const text = (data.text || "").trim();
+    current = JSON.parse(text.replace(/```json|```/g,'').trim());
+    $('out').innerHTML = render(current);
+    $('outBar').style.display = 'flex';
+    $('rvPill').style.display = 'inline-block';
+    if(current.title) $('hdTitle').textContent = current.title;
+    $('status').textContent = '';
+  }catch(e){
+    $('err').innerHTML = '<div class="banner"><div><b>The review did not come back cleanly.</b>Try again, or shorten the notes if the timeline is very long.</div></div>';
+    $('status').textContent = '';
+  }finally{
+    $('go').disabled = false;
+  }
+};
+
+$('copy').onclick = async () => {
+  if(!current) return;
+  await navigator.clipboard.writeText(asText(current));
+  $('copy').textContent = 'Copied';
+  setTimeout(()=>{$('copy').textContent='Copy as text';},1600);
+};
+
+$('dl').onclick = () => {
+  if(!current) return;
+  const blob = new Blob([asText(current)],{type:'text/plain'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'post-incident-review.txt';
+  a.click();
+  URL.revokeObjectURL(a.href);
+};
+</script>
+</body>
+</html>

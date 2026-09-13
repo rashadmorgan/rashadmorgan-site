@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The IT Integration Playbook | Rashad Morgan</title>
+<meta name="description" content="What actually has to happen when two companies become one. A practitioner's runbook for the IT side of merger and acquisition integration.">
+<meta property="og:title" content="The IT Integration Playbook">
+<meta property="og:description" content="What actually has to happen when two companies become one.">
+<meta property="og:type" content="article">
+<style>
+:root{
+  --ink:#15181C; --body:#2B3138; --mute:#6C737B;
+  --navy:#1B3A63; --slate:#4E6178; --rule:#D9DFE6; --paper:#FCFCFB;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--body);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:17px; line-height:1.68;
+}
+.wrap{max-width:720px; margin:0 auto; padding:64px 28px 96px}
+header{border-bottom:2px solid var(--navy); padding-bottom:26px; margin-bottom:12px}
+h1{
+  font-size:40px; line-height:1.14; margin:0 0 10px;
+  color:var(--ink); letter-spacing:-.012em;
+}
+.deck{
+  font-size:19px; color:var(--slate); margin:0 0 20px;
+  font-style:italic; line-height:1.42;
+}
+.byline{
+  font-family:"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--navy); margin:0; font-weight:600;
+}
+h2{
+  font-family:"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:15px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--navy); font-weight:700;
+  margin:48px 0 4px; padding-bottom:7px;
+  border-bottom:1px solid var(--rule);
+}
+p{margin:0 0 17px}
+h2 + p{margin-top:18px}
+strong{color:var(--ink); font-weight:700}
+em{color:var(--ink)}
+ul{margin:0 0 20px; padding-left:22px}
+li{margin-bottom:9px}
+li::marker{color:var(--slate)}
+hr{border:0; height:1px; background:var(--rule); margin:44px 0}
+hr + h2{margin-top:8px}
+.bio{
+  font-size:15px; color:var(--mute); line-height:1.6;
+  border-left:3px solid var(--rule); padding-left:16px; margin-top:6px;
+}
+.bio em{color:var(--mute); font-style:italic}
+@media print{
+  body{background:#fff; font-size:11.2pt; line-height:1.55}
+  .wrap{max-width:none; padding:0}
+  h1{font-size:26pt}
+  .deck{font-size:13pt}
+  h2{font-size:10.5pt; margin:26pt 0 3pt; page-break-after:avoid}
+  h2 + p, h2 + ul{page-break-before:avoid}
+  p,li{orphans:3; widows:3}
+  hr{margin:22pt 0}
+}
+@media (max-width:640px){
+  .wrap{padding:40px 20px 64px}
+  h1{font-size:31px}
+  body{font-size:16px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>The IT Integration Playbook</h1>
+<p class="deck">What actually has to happen when two companies become one</p>
+<p class="byline">By Rashad Morgan</p>
+</header>
+<p>Most writing about mergers and acquisitions is about deal structure, valuation, and synergy targets. Very little of it is about the part where someone has to make two Active Directory forests trust each other before Monday.</p>
+<p>Integration is where deal value is realized or lost, and IT is usually where it gets stuck. The systems work is knowable. The judgment is in deciding what to standardize immediately, what to leave alone, and how much disruption a business can absorb while it is still expected to hit its numbers.</p>
+<p>This is the runbook I wish I had before the first one. It is written from the IT seat. Integration is a team effort across finance, HR, legal, operations, and the business itself, and what follows is the part of it I have been responsible for.</p>
+<hr>
+<h2>Phase 0: Before the deal closes</h2>
+<p>The work that saves the most time happens before you are allowed to touch anything.</p>
+<p><strong>Get what you can pre-close.</strong> Under the existing NDA you can usually obtain headcount by location, a rough application inventory, the acquired company&#x27;s IT org chart, and whether they run internal IT or an MSP. Ask early. It is often available and nobody volunteers it.</p>
+<p><strong>Establish three things immediately:</strong></p>
+<p><em>Who decides when the two companies disagree on a standard.</em> This sounds like a governance detail and it is actually the most important question in the integration. Two organizations have both made defensible choices about password policy, endpoint restrictions, ticket priority definitions, and a hundred other things. Someone has to own the call. If that is not settled before close, every decision becomes a negotiation.</p>
+<p><em>Whether the acquired brand survives.</em> This determines domain strategy, email addressing, identity architecture, and how much of the acquired environment you are migrating versus absorbing. A brand that gets retired is a straightforward migration. A brand that persists means running two identities against one back end, which is a materially different project.</p>
+<p><em>The Day 1 minimum.</em> What genuinely must work on the first morning, separated from what everyone would like to work. These are not the same list and conflating them is the single most common way integrations go badly in week one.</p>
+<p><strong>A note on the diligence gap.</strong> IT diligence is usually done by people looking for cost and risk, not by the people who will inherit the environment. The inventory you receive will be incomplete in predictable ways: undocumented integrations, business-critical spreadsheets, service accounts nobody can explain, and at least one application running on hardware under someone&#x27;s desk. Plan for the gap rather than being surprised by it.</p>
+<hr>
+<h2>Phase 1: Day 1 readiness</h2>
+<p>Day 1 is a communications problem more than a technical one.</p>
+<p>People at the acquired company are anxious. They have just learned who owns them, and IT is the most visible daily signal of whether the new owner is competent. A smooth first morning buys goodwill you will spend later. A bad one costs you credibility you will not fully recover.</p>
+<p><strong>The Day 1 minimum, in most cases:</strong></p>
+<ul>
+<li>Email delivers in both directions between both organizations</li>
+<li>There is one phone number and one address for help, and everyone knows them</li>
+<li>Nobody loses access to something they need to do their job</li>
+<li>Leadership can meet, which means calendars and conferencing interoperate</li>
+</ul>
+<p>That is close to the whole list. Everything else can wait.</p>
+<p><strong>What deliberately waits:</strong> endpoint standardization, ERP consolidation, network redesign, and anything requiring people to learn a new tool. Attempting these on Day 1 is how integrations acquire a reputation that follows them for a year.</p>
+<p><strong>One thing worth doing on Day 1 that is not technical:</strong> show up. Whether in person or on a call, have the IT leader introduce themselves to the acquired team and the acquired business. The acquired IT staff in particular are wondering whether they still have jobs. You may not be able to answer that, but you can tell them what you know and when you will know more. That conversation is worth more than any tool you deploy that week.</p>
+<hr>
+<h2>Phase 2: Identity and access</h2>
+<p>This is the longest pole and the one most likely to break things. It is also where most of the security risk lives, which is why it deserves more deliberation than it usually gets.</p>
+<p><strong>Inventory before you touch anything.</strong> Accounts, groups, service accounts, and the ones nobody can explain. Every acquired environment contains orphaned accounts with more access than anyone realized, and at least one shared credential that several people use daily. Find these before cutover, not during an incident review afterward.</p>
+<p><strong>Decide the target state early.</strong> There are three common paths and they have very different cost profiles:</p>
+<p><em>Migrate into your directory.</em> Cleanest end state, most work up front, and the most disruptive to the acquired users. Best when the acquired brand is being retired and the population is manageable.</p>
+<p><em>Establish a trust.</em> Fastest to stand up, defers the hard work, and leaves you operating two environments indefinitely if you are not disciplined about the follow-through. Useful as a bridge, dangerous as a destination.</p>
+<p><em>Run parallel with synchronization.</em> Reasonable when the acquired company must keep operating independently for regulatory or customer reasons. Adds permanent complexity, so choose it deliberately rather than by default.</p>
+<p>The wrong answer here is expensive to reverse. Spend the time.</p>
+<p><strong>Reconcile Group Policy as a security decision, not a technical one.</strong> Two organizations have made different choices about password length and rotation, account lockout thresholds, screen lock timing, local admin rights, removable media, and software restriction. Merging them means somebody&#x27;s users are getting a stricter environment than they had yesterday, and somebody&#x27;s security posture is getting weaker if you take the looser standard.</p>
+<p>Do not let this default to whichever policy was easier to apply. Put the deltas in a document, decide each one on the merits, and get the decision owned by someone who can defend it.</p>
+<p><strong>Build the deprovisioning path before you need it.</strong> Acquisitions come with departures. Some are planned, some are not, and some happen faster than HR can tell you. If offboarding is manual and you are absorbing a new population, you will accumulate active accounts for people who left. That is an audit finding waiting to happen.</p>
+<p><strong>The thing people underestimate:</strong> service accounts and application integrations authenticate against the old directory and they fail silently. Nothing throws an error a user would notice until a scheduled job does not run, a report does not generate, or an integration stops posting. Enumerate them before cutover and test them after.</p>
+<hr>
+<h2>Phase 3: Service management</h2>
+<p>You now have two help desks, two ticketing systems, two sets of SLAs, and two teams who each believe their way is correct.</p>
+<p><strong>What has to be decided:</strong></p>
+<ul>
+<li>One platform or two, and if one, whose</li>
+<li>Whether the acquired team reports into your structure immediately or stays separate through a transition</li>
+<li>Which SLAs apply, and whether the acquired population&#x27;s expectations were higher or lower than yours</li>
+<li>What happens to historical ticket data</li>
+</ul>
+<p><strong>On the platform decision.</strong> Consolidating onto one system is almost always right eventually, and almost never right on Day 1. The acquired team knows their tool and is already absorbing a change of employer. Give them a runway. Set the date, communicate it, and hold to it, but do not make the platform migration the first thing they experience.</p>
+<p><strong>On historical data.</strong> It usually does not migrate cleanly and usually does not need to. Export it, archive it somewhere retrievable, and move on. The number of times anyone will ask for a two year old ticket from the acquired environment is smaller than the effort to migrate it faithfully.</p>
+<p><strong>On SLA expectations.</strong> This is a trap. If the acquired company had a small, responsive internal team, their users are accustomed to walking down the hall and getting help in five minutes. Your formal SLA of four hours will feel like a downgrade even though it is a more mature service. Name this explicitly with the acquired business leadership before it becomes a complaint.</p>
+<p><strong>On absorbing an inherited team.</strong> They were doing their job competently before you arrived. Start by asking what works in their environment before telling them what changes. The ones who stay become your best source of knowledge about the acquired business, including the undocumented things that do not appear in any inventory. The ones who leave take that knowledge with them, so the retention conversation is also a risk mitigation conversation.</p>
+<hr>
+<h2>Phase 4: Endpoints, network, and the long tail</h2>
+<p><strong>Endpoints standardize slowly.</strong> Aligning on hardware, image, and management agent is right, and forcing it early is usually not. The refresh cycle is your friend. Bring new devices onto your standard, enroll existing devices in management, and let attrition do the rest.</p>
+<p><strong>Network integration depends on one question:</strong> do the sites need to reach each other, or just the internet and your cloud services? The answer determines whether this is a modest project or a significant one, and it is worth asking explicitly rather than assuming.</p>
+<p><strong>Applications are the long tail and they will outlast your patience.</strong> There will be a business-critical system running somewhere nobody documented. There will be an integration between two applications that only one person understands. There will be a license that transfers awkwardly or not at all on change of control.</p>
+<p>Find these during inventory. You will not find all of them. Budget time for the ones you miss.</p>
+<p><strong>Vendor contracts deserve their own attention.</strong> Acquisitions create duplicate spend almost immediately: two ticketing platforms, two endpoint tools, two monitoring products, overlapping telecom. Consolidating these is the most legible cost saving IT can deliver post-close, and it is often the thing that justifies the integration budget. Get the contract list early, note the renewal dates, and sequence your consolidation to land before renewals rather than after.</p>
+<hr>
+<h2>Phase 5: What &quot;done&quot; means</h2>
+<p>Integrations do not finish. They stop being discussed. If you do not define completion explicitly, the work will consume attention indefinitely and you will never get a clean answer about whether it succeeded.</p>
+<p><strong>Reasonable completion criteria:</strong></p>
+<ul>
+<li>One identity source</li>
+<li>One service management platform and one support model</li>
+<li>One set of standards for endpoints, access, and policy</li>
+<li>Duplicate vendor contracts eliminated or consciously retained</li>
+<li>An environment a new team member could learn without needing to know which company each site used to belong to</li>
+</ul>
+<p><strong>Write down what you left unfinished on purpose.</strong> Every integration has deliberate deferrals: an application nobody wanted to touch, a site that stayed on its own network, a process that stayed manual because automating it was not worth the effort. Documenting these as decisions rather than leaving them as mysteries is the difference between a completed integration and one that quietly becomes technical debt.</p>
+<hr>
+<h2>The part that is not technical</h2>
+<p>Every integration is also a change of employer for a group of people who did not choose it. IT is the function they interact with most in the first week, and their impression of the acquiring organization forms fast.</p>
+<p>The technical work is knowable. Directories merge, platforms consolidate, endpoints standardize. Any competent team can execute it given time.</p>
+<p>The judgment is in deciding what to standardize immediately and what to leave alone, how much change a business can absorb while still hitting its numbers, and when to hold a standard versus when the standard is costing more than it is worth.</p>
+<p>That judgment is the thing that does not come from a playbook. It comes from being in the room for it, watching what broke, and being there again for the next one.</p>
+<hr>
+<p class="bio"><em>Rashad Morgan leads shared services IT for a multi-brand industrial distribution group, where a merger and three acquisitions taught him most of what is in this document. His part of the work is identity, service management, and end user support.</em></p>
+</div>
+</body>
+</html>

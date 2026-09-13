@@ -1,0 +1,44 @@
+# Netlify configuration for the portfolio site
+# Deploy target: work.rashadmorgan.com (subdomain, so the root domain
+# can keep forwarding to LinkedIn without conflict)
+
+[build]
+  publish   = "public"
+  functions = "netlify/functions"
+  # No build step. These are static files.
+  command   = ""
+
+[build.environment]
+  NODE_VERSION = "20"
+
+# ---------------------------------------------------------------
+# Security headers
+# ---------------------------------------------------------------
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options           = "SAMEORIGIN"
+    X-Content-Type-Options    = "nosniff"
+    Referrer-Policy           = "strict-origin-when-cross-origin"
+    Permissions-Policy        = "geolocation=(), microphone=(), camera=()"
+    Strict-Transport-Security = "max-age=31536000; includeSubDomains"
+
+# Long cache for the PDF, which will not change often
+[[headers]]
+  for = "/playbook/*.pdf"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+# ---------------------------------------------------------------
+# Friendly paths
+# ---------------------------------------------------------------
+[[redirects]]
+  from = "/pdf"
+  to   = "/playbook/it-integration-playbook.pdf"
+  status = 301
+
+# Short link worth having on a business card or in an email signature
+[[redirects]]
+  from = "/integration"
+  to   = "/playbook/"
+  status = 301
