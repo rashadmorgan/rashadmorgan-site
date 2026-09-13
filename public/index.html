@@ -20,8 +20,13 @@
   }
   .wrap{max-width:720px; margin:0 auto; padding:72px 28px 96px}
   header{border-bottom:2px solid var(--navy); padding-bottom:24px; margin-bottom:38px}
-  h1{font-size:40px; line-height:1.14; margin:0 0 10px; color:var(--ink); letter-spacing:-.012em}
-  .deck{font-size:19px; color:var(--slate); margin:0 0 18px; font-style:italic; line-height:1.42}
+h1{
+    font-size:42px; line-height:1.06; margin:0 0 16px;
+    color:var(--ink); letter-spacing:-.022em; font-weight:400;
+    transform:scaleY(1.16); transform-origin:left bottom;
+    display:inline-block;
+  }
+  .deck{font-size:19px; color:var(--slate); margin:6px 0 18px; font-style:italic; line-height:1.42}
   .links{
     font-family:"Segoe UI",Helvetica,Arial,sans-serif;
     font-size:13px; letter-spacing:.03em; margin:0;
@@ -53,7 +58,7 @@
   }
   @media (max-width:640px){
     .wrap{padding:44px 20px 64px}
-    h1{font-size:31px}
+    h1{font-size:32px; transform:scaleY(1.13)}
     body{font-size:16px}
   }
 </style>

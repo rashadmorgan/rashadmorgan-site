@@ -22,11 +22,13 @@ body{
 .wrap{max-width:720px; margin:0 auto; padding:64px 28px 96px}
 header{border-bottom:2px solid var(--navy); padding-bottom:26px; margin-bottom:12px}
 h1{
-  font-size:40px; line-height:1.14; margin:0 0 10px;
-  color:var(--ink); letter-spacing:-.012em;
-}
+    font-size:42px; line-height:1.06; margin:0 0 16px;
+    color:var(--ink); letter-spacing:-.022em; font-weight:400;
+    transform:scaleY(1.16); transform-origin:left bottom;
+    display:inline-block;
+  }
 .deck{
-  font-size:19px; color:var(--slate); margin:0 0 20px;
+  font-size:19px; color:var(--slate); margin:6px 0 20px;
   font-style:italic; line-height:1.42;
 }
 .byline{
@@ -58,7 +60,7 @@ hr + h2{margin-top:8px}
 @media print{
   body{background:#fff; font-size:11.2pt; line-height:1.55}
   .wrap{max-width:none; padding:0}
-  h1{font-size:26pt}
+  h1{font-size:27pt; transform:scaleY(1.14)}
   .deck{font-size:13pt}
   h2{font-size:10.5pt; margin:26pt 0 3pt; page-break-after:avoid}
   h2 + p, h2 + ul{page-break-before:avoid}
@@ -67,7 +69,7 @@ hr + h2{margin-top:8px}
 }
 @media (max-width:640px){
   .wrap{padding:40px 20px 64px}
-  h1{font-size:31px}
+  h1{font-size:32px; transform:scaleY(1.13)}
   body{font-size:16px}
 }
 </style>
