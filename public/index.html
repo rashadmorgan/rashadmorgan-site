@@ -47,7 +47,7 @@ h1{
   }
   .item{margin:30px 0 0}
   .item h3{font-size:23px; margin:0 0 2px; color:var(--ink); letter-spacing:-.008em}
-  .item h3 a{color:inherit; text-decoration:none; border-bottom:2px solid var(--rule)}
+  .item h3 a{color:inherit; text-decoration:none; border-bottom:1px solid var(--rule); padding-bottom:2px}
   .item h3 a:hover{border-bottom-color:var(--navy)}
   .item p{margin:0 0 6px}
   .meta{
@@ -67,7 +67,7 @@ h1{
     header{padding-bottom:14px; margin-bottom:22px}
     .deck{font-size:17.5px; margin:2px 0 10px}
     .lede{font-size:19px; line-height:1.45}
-    h2{margin:42px 0 0}
+    h2{margin:34px 0 0}
     .item{margin:26px 0 0}
     .item h3{font-size:21px}
     footer{margin-top:40px; padding-top:16px}
@@ -109,11 +109,23 @@ h1{
     <p class="meta"><a href="/root-cause/">Read</a> &nbsp;&middot;&nbsp; <a href="/root-cause/root-cause-is-the-deliverable.pdf">Download PDF</a></p>
   </div>
 
+  <div class="item">
+    <h3><a href="/inherited/">Inheriting a Team You Did Not Hire</a></h3>
+    <p>Job descriptions say you will inherit existing teams as though it were a starting condition rather than the hardest part of the first year. What to ask, what to promise, what not to promise, and how to decide who stays.</p>
+    <p class="meta"><a href="/inherited/">Read</a> &nbsp;&middot;&nbsp; <a href="/inherited/inheriting-a-team-you-did-not-hire.pdf">Download PDF</a></p>
+  </div>
+
+  <div class="item">
+    <h3><a href="/distributed/">Running IT for a Team You Never See</a></h3>
+    <p>Distance does not create problems so much as expose them. Availability as a design decision, handoffs as where the service actually lives, and the part that is genuinely harder at a distance.</p>
+    <p class="meta"><a href="/distributed/">Read</a> &nbsp;&middot;&nbsp; <a href="/distributed/running-it-for-a-team-you-never-see.pdf">Download PDF</a></p>
+  </div>
+
   <h2>Tools</h2>
 
   <div class="item">
     <h3><a href="/retrospect/">Retrospect</a></h3>
-    <p>Paste the notes you actually took during an incident and get back a structured post incident review: impact, timeline, root cause separated from contributing factors, and corrective actions with owners. Built because the writing was always the bottleneck, not the analysis.</p>
+    <p>A post incident review builder that enforces the parts people skip. It pulls a timeline out of your raw notes, keeps root cause separate from the conditions that allowed it, and refuses to let a corrective action through without an owner, a date, and language specific enough to verify six weeks later.</p>
     <p class="meta"><a href="/retrospect/">Try it</a></p>
   </div>
 

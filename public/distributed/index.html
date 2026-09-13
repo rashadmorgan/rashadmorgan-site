@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Running IT for a Team You Never See | Rashad Morgan</title>
+<meta name="description" content="What changes when your people are in six states and your users are everywhere.">
+<meta property="og:title" content="Running IT for a Team You Never See">
+<meta property="og:description" content="What changes when your people are in six states and your users are everywhere.">
+<meta property="og:type" content="article">
+<style>
+:root{
+  --ink:#15181C; --body:#2B3138; --mute:#6C737B;
+  --navy:#1B3A63; --slate:#4E6178; --rule:#D9DFE6; --paper:#FCFCFB;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--body);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:17px; line-height:1.68;
+}
+.wrap{max-width:720px; margin:0 auto; padding:58px 28px 96px}
+header{border-bottom:2px solid var(--navy); padding-bottom:16px; margin-bottom:10px}
+h1{
+    font-size:42px; line-height:1.02; margin:0 0 6px;
+    color:var(--ink); letter-spacing:-.022em; font-weight:400;
+    transform:scaleY(1.16); transform-origin:left bottom;
+    display:inline-block;
+  }
+.deck{
+  font-size:19px; color:var(--slate); margin:2px 0 12px;
+  font-style:italic; line-height:1.38;
+}
+.byline{
+  font-family:"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--navy); margin:0; font-weight:600;
+}
+h2{
+  font-family:"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:15px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--navy); font-weight:700;
+  margin:48px 0 4px; padding-bottom:7px;
+  border-bottom:1px solid var(--rule);
+}
+p{margin:0 0 17px}
+h2 + p{margin-top:18px}
+strong{color:var(--ink); font-weight:700}
+em{color:var(--ink)}
+ul{margin:0 0 20px; padding-left:22px}
+li{margin-bottom:9px}
+li::marker{color:var(--slate)}
+hr{border:0; height:1px; background:var(--rule); margin:44px 0}
+hr + h2{margin-top:8px}
+.bio{
+  font-size:15px; color:var(--mute); line-height:1.6;
+  border-left:3px solid var(--rule); padding-left:16px; margin-top:6px;
+}
+.bio em{color:var(--mute); font-style:italic}
+@media print{
+  body{background:#fff; font-size:11.2pt; line-height:1.55}
+  .wrap{max-width:none; padding:0}
+  h1{font-size:27pt; transform:scaleY(1.14)}
+  .deck{font-size:13pt}
+  h2{font-size:10.5pt; margin:26pt 0 3pt; page-break-after:avoid}
+  h2 + p, h2 + ul{page-break-before:avoid}
+  p,li{orphans:3; widows:3}
+  hr{margin:22pt 0}
+}
+@media (max-width:640px){
+  .wrap{padding:40px 20px 64px}
+  h1{font-size:32px; transform:scaleY(1.13)}
+  body{font-size:16px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Running IT for a Team You Never See</h1>
+<p class="deck">What changes when your people are in six states and your users are everywhere</p>
+<p class="byline">By Rashad Morgan</p>
+</header>
+<p>Most advice about remote work is about remote work. It assumes a team that used to sit together and now does not, and it is mostly about preserving what was lost.</p>
+<p>That is not the situation I am describing. The situation I am describing is a support organization that was never in one place, serving a user population that spans time zones, where the nearest colleague to any given technician might be six hundred miles away. Nothing was lost, because nothing was ever co-located. The question is not how to preserve the office. It is how to run a service when proximity was never available to lean on.</p>
+<hr>
+<h2>Proximity was hiding things</h2>
+<p>The first thing you notice is that distance does not create problems so much as expose them.</p>
+<p>When a team sits together, a great deal of coordination happens invisibly. Someone overhears a call and offers context. A technician turns around and asks the person behind them. A manager sees somebody struggling and walks over. None of it is written down and none of it appears in any process document, because nobody had to design it.</p>
+<p>Remove proximity and that layer disappears. What is left is whatever you actually built.</p>
+<p>So the failures you see in a distributed team are rarely failures of distance. They are gaps in documentation, in escalation paths, in role clarity, that were being patched by physical adjacency. The distance did not break anything. It stopped concealing what was already broken.</p>
+<p>This is worth knowing because it changes what you fix. The instinct is to add communication: more meetings, more check-ins, more presence. Usually the right answer is to make explicit the thing that used to happen implicitly.</p>
+<hr>
+<h2>Write things down, and mean it</h2>
+<p>Documentation in a co-located team is a nice-to-have that everyone agrees is important and nobody does. In a distributed team it is the substrate.</p>
+<p>The distinction that matters is between documentation that describes a system and documentation that lets someone act. Most internal documentation is the first kind. It tells you how something is configured. What a technician at 6am in another time zone needs is the second kind: what to do, in what order, and what to do when the expected thing does not happen.</p>
+<p>A few things that make the difference:</p>
+<p><strong>Write for the person who has the problem, not the person who built the system.</strong> The article should start from the symptom, not the architecture.</p>
+<p><strong>Include the failure paths.</strong> Any runbook can describe the happy path. What makes one useful at 2am is the section explaining what it looks like when step four does not work.</p>
+<p><strong>Date it and own it.</strong> Documentation with no owner and no date rots invisibly, and rotted documentation is worse than none, because someone will follow it.</p>
+<p><strong>Accept that it is a real cost.</strong> Writing this well takes time that is not spent closing tickets. A team that never gets that time will never have it, and will keep paying for the absence in escalations that should not have been escalations.</p>
+<hr>
+<h2>Availability is a design decision, not a schedule</h2>
+<p>When your users span time zones, somebody is always starting their day while somebody else is finishing.</p>
+<p>The naive response is to extend hours until the coverage gap closes, which converts a scheduling problem into a staffing problem and a retention problem. The better response is to decide, deliberately, what actually needs live coverage and what does not.</p>
+<p>Most support volume is not time-critical. A request that arrives at 7am in one region and gets handled at 9am in another is fine, as long as the user knows that is what will happen. The unacceptable outcome is not delay, it is uncertainty. People plan around a known response window. They cannot plan around silence.</p>
+<p>That leads to a small number of real decisions:</p>
+<ul>
+<li>Which categories genuinely need someone awake, and which need only acknowledgment</li>
+<li>Where the boundary sits between regions, and who holds the handoff</li>
+<li>What &quot;urgent&quot; means, written down, so it is not decided by whoever shouts</li>
+<li>How an incident reaches a human outside business hours, and who that human is</li>
+</ul>
+<p>None of this is complicated. It is just easier to avoid deciding and let the schedule absorb the problem, which works until the people absorbing it leave.</p>
+<hr>
+<h2>Handoffs are where the service actually lives</h2>
+<p>In a distributed team, work crosses people more often. Every crossing is a chance to lose context.</p>
+<p>The cost is invisible in the metrics. A ticket handed between three technicians across two regions can still close within SLA. The user experienced three separate conversations, re-explained the problem twice, and formed the impression that nobody knew what was going on. Your dashboard says the service performed well.</p>
+<p>What helps:</p>
+<p><strong>Write the ticket for the next person.</strong> Not a log of what you did, a statement of where things stand: what has been ruled out, what is still open, what the user has already been told.</p>
+<p><strong>Hand off to a person, not a queue.</strong> A named handoff creates accountability. A queue creates a period where nobody owns it.</p>
+<p><strong>Measure reassignments.</strong> It is a better proxy for service quality than resolution time, and almost nobody tracks it.</p>
+<hr>
+<h2>You cannot see who is struggling</h2>
+<p>This is the part that is genuinely harder at a distance, and I do not think there is a clean solution.</p>
+<p>In an office, you notice. Someone is quiet, or short with people, or working late in a way that is not normal for them. You do not need a process to catch it. At a distance, a person can be unhappy for months and the only signal is a resignation.</p>
+<p>Partial mitigations, none of them complete:</p>
+<p><strong>Regular one to one time that is not a status update.</strong> If the only recurring conversation is about tickets, the only thing you will hear about is tickets.</p>
+<p><strong>Watch the shape of someone&#x27;s work, not just the volume.</strong> Output often holds steady right up until it does not. Changes in what someone picks up, or stops picking up, or how they write, tend to precede changes in how much they do.</p>
+<p><strong>Make it normal to say the job is hard.</strong> If nobody on the team has ever said it out loud, the first person to do so is taking a risk, and most people will not.</p>
+<p><strong>Get in a room occasionally if you can.</strong> It is expensive and it is not always possible. It also resets something that video does not, and the effect lasts for months.</p>
+<p>I want to be honest that this is the area where I am least confident. A distributed manager is working with less information about their people than a co-located one, and no amount of process fully closes that gap.</p>
+<hr>
+<h2>Standards travel, culture does not</h2>
+<p>A distributed team will not have one culture by default. It will have as many micro-cultures as it has locations, shaped by who was there first and what the local business does.</p>
+<p>Some of that is fine and worth leaving alone. A technician embedded at a manufacturing site will work differently from one supporting a corporate office, and forcing uniformity on that is a waste of effort that also tells them their context does not matter.</p>
+<p>What has to be uniform is narrower than most managers assume:</p>
+<ul>
+<li>What good service looks like and how it is measured</li>
+<li>How work gets prioritized when everything is urgent</li>
+<li>What gets escalated and to whom</li>
+<li>What is not negotiable, meaning security, access, and data handling</li>
+</ul>
+<p>Beyond that, let people work the way that fits where they are. The energy spent enforcing uniformity on things that do not matter is energy not spent on the things that do.</p>
+<hr>
+<h2>What this actually buys you</h2>
+<p>The reason to get good at this is not that remote is pleasant. It is that a function built to work at a distance is a function that can absorb change.</p>
+<p>A team that depends on proximity breaks when it grows, when it acquires, when someone moves. A team that never had proximity has already solved for it. Adding a new site is a configuration change rather than a reorganization. Absorbing another company&#x27;s support staff is possible because your operating model never assumed everyone could see each other.</p>
+<p>The discipline is the same discipline that makes any operations function scale: make the implicit explicit, decide things deliberately, and write them down. Distance just removes the option of skipping it.</p>
+<hr>
+<p class="bio"><em>Rashad Morgan leads shared services IT for a multi-brand industrial distribution group, with a team across six states supporting a global user base. His part of the work is identity, service management, and end user support.</em></p>
+<p style="margin-top:44px;font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:13px">
+<a href="/" style="color:#1B3A63;text-decoration:none;border-bottom:1px solid #D9DFE6">More writing</a>
+</p>
+</div>
+</body>
+</html>
