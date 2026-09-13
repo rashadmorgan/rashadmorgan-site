@@ -3,92 +3,45 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Retrospect — Post Incident Review</title>
+<title>Retrospect | Post Incident Review</title>
+<meta name="description" content="A structured post incident review builder. Separates root cause from contributing factors and checks that corrective actions are specific and owned.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --nav:#032D42;
-    --nav-2:#0A4257;
-    --canvas:#F1F3F5;
-    --card:#FFFFFF;
-    --line:#DDE1E6;
-    --line-soft:#EBEEF0;
-    --ink:#1B1B1B;
-    --ink-2:#5B6770;
-    --teal:#1F8476;
-    --teal-dk:#166257;
-    --green:#62D84E;
-    --amber:#C8811B;
-    --red:#B3231F;
-    --blue:#205CB3;
+    --nav:#032D42; --nav-2:#0A4257; --canvas:#F1F3F5; --card:#FFFFFF;
+    --line:#DDE1E6; --line-soft:#EBEEF0; --ink:#1B1B1B; --ink-2:#5B6770;
+    --teal:#1F8476; --teal-dk:#166257; --green:#62D84E;
+    --amber:#C8811B; --amber-bg:#FBF3E7; --red:#B3231F; --blue:#205CB3;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0;height:100%}
-  body{
-    background:var(--canvas);
-    color:var(--ink);
-    font-family:Lato,system-ui,-apple-system,sans-serif;
-    font-size:14px;
-    line-height:1.5;
-    -webkit-font-smoothing:antialiased;
-  }
+  body{background:var(--canvas);color:var(--ink);font-family:Lato,system-ui,sans-serif;font-size:14px;line-height:1.5;-webkit-font-smoothing:antialiased}
 
-  .topbar{
-    background:var(--nav);color:#fff;height:48px;
-    display:flex;align-items:center;padding:0 16px;gap:16px;
-  }
+  .topbar{background:var(--nav);color:#fff;height:48px;display:flex;align-items:center;padding:0 16px;gap:14px}
   .brand{font-weight:900;letter-spacing:.02em;font-size:16px}
   .brand span{font-weight:400;opacity:.7}
-  .demo-tag{
-    font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
-    padding:2px 8px;border-radius:10px;
-    background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.3);
-  }
   .topbar .spacer{flex:1}
-  .avatar{
-    width:28px;height:28px;border-radius:50%;
-    background:var(--teal);color:#fff;
-    display:grid;place-items:center;font-size:12px;font-weight:700;
-  }
+  .avatar{width:28px;height:28px;border-radius:50%;background:var(--teal);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700}
 
   .shell{display:flex;min-height:calc(100vh - 48px)}
-
   .sidenav{width:208px;flex:0 0 208px;background:var(--nav-2);padding:14px 0}
-  .sidenav h4{
-    margin:0;padding:8px 18px 6px;
-    font-size:11px;font-weight:700;letter-spacing:.08em;
-    text-transform:uppercase;color:rgba(255,255,255,.55);
-  }
-  .sidenav a{
-    display:block;padding:8px 18px;
-    color:rgba(255,255,255,.86);text-decoration:none;font-size:13.5px;
-    border-left:3px solid transparent;
-  }
+  .sidenav h4{margin:0;padding:8px 18px 6px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.55)}
+  .sidenav a{display:block;padding:8px 18px;color:rgba(255,255,255,.86);text-decoration:none;font-size:13.5px;border-left:3px solid transparent}
   .sidenav a:hover{background:rgba(255,255,255,.07)}
-  .sidenav a.on{
-    background:rgba(255,255,255,.11);
-    border-left-color:var(--green);color:#fff;font-weight:700;
-  }
+  .sidenav a.on{background:rgba(255,255,255,.11);border-left-color:var(--green);color:#fff;font-weight:700}
 
   .main{flex:1;min-width:0;padding:16px 20px 48px}
   .crumb{font-size:12.5px;color:var(--ink-2);margin-bottom:10px}
   .crumb b{color:var(--ink)}
 
   .card{background:var(--card);border:1px solid var(--line);border-radius:3px;margin-bottom:16px}
-  .card-hd{
-    display:flex;align-items:center;gap:12px;
-    padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap;
-  }
-  .rec-no{font-weight:900;font-size:15px;letter-spacing:.01em}
+  .card-hd{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .rec-no{font-weight:900;font-size:15px}
   .rec-ti{color:var(--ink-2);font-size:14px}
   .card-hd .spacer{flex:1}
-
-  .pill{
-    font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;
-    padding:3px 9px;border-radius:11px;white-space:nowrap;
-  }
+  .pill{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:11px;white-space:nowrap}
   .pill.open{background:#FBEDE1;color:var(--amber);border:1px solid #EFD3B4}
   .pill.res{background:#E4F2EF;color:var(--teal-dk);border:1px solid #C2E0D9}
 
@@ -100,85 +53,70 @@
   .fld{margin-bottom:14px}
   .fld.wide{grid-column:1/-1}
   label{display:block;font-size:12px;font-weight:700;color:var(--ink-2);margin-bottom:4px}
-  input,select,textarea{
-    width:100%;font-family:inherit;font-size:13.5px;color:var(--ink);
-    background:#fff;border:1px solid var(--line);border-radius:2px;
-    padding:7px 9px;line-height:1.45;
-  }
-  input:focus,select:focus,textarea:focus{
-    outline:0;border-color:var(--blue);box-shadow:0 0 0 2px rgba(32,92,179,.18);
-  }
-  textarea{
-    min-height:190px;resize:vertical;
-    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-    font-size:12.5px;line-height:1.75;
-  }
+  input,select,textarea{width:100%;font-family:inherit;font-size:13.5px;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:2px;padding:7px 9px;line-height:1.45}
+  input:focus,select:focus,textarea:focus{outline:0;border-color:var(--blue);box-shadow:0 0 0 2px rgba(32,92,179,.18)}
+  textarea{resize:vertical;min-height:74px}
+  textarea.notes{min-height:150px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;line-height:1.75}
   .hint{font-size:11.5px;color:var(--ink-2);margin-top:4px}
 
-  .bar{
-    display:flex;align-items:center;gap:12px;
-    padding:12px 16px;border-top:1px solid var(--line);
-    background:#FAFBFC;flex-wrap:wrap;
-  }
-  .btn{
-    font-family:inherit;font-size:13px;font-weight:700;color:#fff;
-    background:var(--teal);border:1px solid var(--teal-dk);
-    border-radius:2px;padding:7px 16px;cursor:pointer;
-  }
+  .rows{display:flex;flex-direction:column;gap:7px}
+  .row{display:flex;gap:7px;align-items:flex-start}
+  .row input{flex:1}
+  .row .w-own{flex:0 0 150px}
+  .row .w-due{flex:0 0 120px}
+  .xbtn{flex:0 0 auto;border:1px solid var(--line);background:#fff;color:var(--ink-2);border-radius:2px;width:28px;height:31px;cursor:pointer;font-size:15px;line-height:1}
+  .xbtn:hover{background:#F1F3F5;color:var(--red)}
+  .addbtn{align-self:flex-start;margin-top:3px;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--teal-dk);background:none;border:0;padding:3px 0;cursor:pointer}
+  .addbtn:hover{text-decoration:underline}
+  .colhead{display:flex;gap:7px;font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-2);margin-bottom:4px}
+  .colhead .c1{flex:1}
+  .colhead .c2{flex:0 0 150px}
+  .colhead .c3{flex:0 0 120px}
+  .colhead .c4{flex:0 0 28px}
+
+  .bar{display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:1px solid var(--line);background:#FAFBFC;flex-wrap:wrap}
+  .btn{font-family:inherit;font-size:13px;font-weight:700;color:#fff;background:var(--teal);border:1px solid var(--teal-dk);border-radius:2px;padding:7px 16px;cursor:pointer}
   .btn:hover{background:var(--teal-dk)}
-  .btn:disabled{background:#9AA5AC;border-color:#8B959B;cursor:default}
   .btn.sec{background:#fff;color:var(--ink);border-color:var(--line)}
   .btn.sec:hover{background:#F1F3F5}
   .btn:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
   .bar .spacer{flex:1}
   .stat{font-size:12.5px;color:var(--ink-2)}
 
-  .banner{
-    display:flex;gap:10px;padding:10px 14px;
-    border-left:3px solid var(--red);background:#FCEFEE;
-    font-size:13px;margin:0 16px 16px;
-  }
-  .banner b{display:block}
+  .checks{padding:14px 16px;border-top:1px solid var(--line);background:#FFFDF8}
+  .checks h5{margin:0 0 8px;font-size:11px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;color:var(--amber)}
+  .checks ul{margin:0;padding-left:18px}
+  .checks li{margin-bottom:6px;font-size:13px;color:#6B5218}
+  .checks li b{color:#4A380F}
+  .checks.clean{background:#F4FAF8;border-top-color:var(--line)}
+  .checks.clean h5{color:var(--teal-dk)}
+  .checks.clean li{color:var(--teal-dk)}
 
   .rv{padding:18px 16px 6px}
-  .rv h3{
-    font-size:12px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;
-    color:var(--teal-dk);margin:22px 0 7px;padding-bottom:5px;
-    border-bottom:1px solid var(--line-soft);
-  }
+  .rv h3{font-size:12px;font-weight:900;letter-spacing:.07em;text-transform:uppercase;color:var(--teal-dk);margin:22px 0 7px;padding-bottom:5px;border-bottom:1px solid var(--line-soft)}
   .rv h3:first-of-type{margin-top:14px}
   .rv h2{font-size:17px;font-weight:900;margin:0 0 3px}
   .rv .sub{font-size:12.5px;color:var(--ink-2);margin:0 0 4px}
   .rv p{margin:0 0 10px;max-width:78ch}
   .rv ul{margin:0 0 10px;padding-left:19px;max-width:78ch}
   .rv li{margin-bottom:5px}
-
   table.tl{border-collapse:collapse;width:100%;max-width:720px;margin-bottom:10px}
   table.tl td{border-bottom:1px solid var(--line-soft);padding:6px 10px 6px 0;vertical-align:top;font-size:13.5px}
-  table.tl td.t{
-    width:78px;white-space:nowrap;
-    font-family:ui-monospace,SFMono-Regular,Menlo,monospace;
-    font-size:12.5px;color:var(--blue);font-weight:700;
-  }
-
+  table.tl td.t{width:78px;white-space:nowrap;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;color:var(--blue);font-weight:700}
   table.ca{border-collapse:collapse;width:100%;margin-bottom:10px}
-  table.ca th{
-    text-align:left;font-size:11px;letter-spacing:.05em;text-transform:uppercase;
-    color:var(--ink-2);border-bottom:1px solid var(--line);padding:6px 10px 6px 0;
-  }
+  table.ca th{text-align:left;font-size:11px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-2);border-bottom:1px solid var(--line);padding:6px 10px 6px 0}
   table.ca td{border-bottom:1px solid var(--line-soft);padding:7px 10px 7px 0;font-size:13.5px;vertical-align:top}
 
-  .placeholder{padding:34px 16px;color:var(--ink-2);max-width:56ch}
+  .placeholder{padding:30px 16px;color:var(--ink-2);max-width:60ch}
   .placeholder b{display:block;color:var(--ink);font-size:15px;margin-bottom:5px}
-
-  .dots{display:inline-block;animation:bl 1.1s steps(2,start) infinite}
-  @keyframes bl{to{visibility:hidden}}
-  @media (prefers-reduced-motion:reduce){.dots{animation:none}}
 
   @media (max-width:900px){
     .sidenav{display:none}
     .grid{grid-template-columns:1fr}
     .main{padding:12px}
+    .row{flex-wrap:wrap}
+    .row .w-own,.row .w-due{flex:1 1 100%}
+    .colhead{display:none}
   }
 </style>
 </head>
@@ -186,7 +124,6 @@
 
 <div class="topbar">
   <div class="brand">Retrospect <span>| Incident Management</span></div>
-  <span class="demo-tag">Demo</span>
   <div class="spacer"></div>
   <div class="avatar">RM</div>
 </div>
@@ -223,61 +160,107 @@
 
       <div class="grid">
         <div class="fld">
-          <label for="svc">Configuration item</label>
-          <input id="svc" placeholder="Label printing service">
+          <label for="ci">Configuration item</label>
+          <input id="ci" placeholder="Label printing service">
         </div>
         <div class="fld">
           <label for="who">Affected users</label>
           <input id="who" placeholder="~400 users across 6 branch sites">
         </div>
         <div class="fld">
-          <label for="sev">Priority</label>
-          <select id="sev">
-            <option>P1 — Critical</option>
-            <option selected>P2 — High</option>
-            <option>P3 — Moderate</option>
+          <label for="pri">Priority</label>
+          <select id="pri">
+            <option>P1 &mdash; Critical</option>
+            <option selected>P2 &mdash; High</option>
+            <option>P3 &mdash; Moderate</option>
           </select>
         </div>
         <div class="fld">
           <label for="dur">Time to resolve</label>
-          <input id="dur" placeholder="3h 40m">
+          <input id="dur" placeholder="calculated from the timeline">
         </div>
+
         <div class="fld wide">
-          <label for="notes">Work notes and timeline</label>
-          <textarea id="notes" placeholder="09:12  first ticket, warehouse can't print labels
-09:20  three more sites reporting, escalated
+          <label for="notes">Work notes</label>
+          <textarea id="notes" class="notes" placeholder="09:12  first ticket, warehouse can't print labels
 09:35  ruled out the app, points at print server
-10:05  restarted spooler, no change
 10:40  signing cert expired overnight, no alert fired
-11:15  renewed and deployed, labels printing
 12:52  all sites confirmed clear"></textarea>
-          <div class="hint">Paste the notes as you took them. Timestamps, fragments, and dead ends are fine.</div>
+          <div class="hint">Paste the notes as you took them. Lines beginning with a time become timeline entries and the duration is calculated from the first and last.</div>
         </div>
       </div>
 
-      <div id="err"></div>
-
       <div class="bar">
-        <button class="btn" id="go">Generate review</button>
+        <button class="btn sec" id="parse" type="button">Build timeline from notes</button>
         <button class="btn sec" id="demo" type="button">Load sample incident</button>
         <div class="spacer"></div>
-        <span class="stat" id="status"></span>
+        <span class="stat" id="parseStat"></span>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="card-hd"><span class="rec-no">Analysis</span></div>
+      <div class="grid">
+        <div class="fld wide">
+          <label for="summary">Summary</label>
+          <textarea id="summary" placeholder="What happened, in two or three sentences a business reader can follow."></textarea>
+        </div>
+        <div class="fld wide">
+          <label for="impact">Impact</label>
+          <textarea id="impact" placeholder="Who was affected, what they could not do, and for how long."></textarea>
+        </div>
+        <div class="fld wide">
+          <label for="root">Root cause</label>
+          <textarea id="root" placeholder="What broke. Not the symptom, and not yet the conditions around it."></textarea>
+        </div>
+
+        <div class="fld wide">
+          <label>Contributing factors</label>
+          <div class="rows" id="cfRows"></div>
+          <button class="addbtn" data-add="cf" type="button">+ Add factor</button>
+          <div class="hint">What allowed it to happen, go undetected, or take longer to find than it should have.</div>
+        </div>
+
+        <div class="fld wide">
+          <label>What went well</label>
+          <div class="rows" id="wwRows"></div>
+          <button class="addbtn" data-add="ww" type="button">+ Add</button>
+        </div>
+
+        <div class="fld wide">
+          <label>Corrective actions</label>
+          <div class="colhead"><span class="c1">Action</span><span class="c2">Owner</span><span class="c3">Target</span><span class="c4"></span></div>
+          <div class="rows" id="caRows"></div>
+          <button class="addbtn" data-add="ca" type="button">+ Add action</button>
+          <div class="hint">Specific enough to be finished. An owning function, not a person. A date somebody believes.</div>
+        </div>
+
+        <div class="fld wide">
+          <label>Open questions</label>
+          <div class="rows" id="oqRows"></div>
+          <button class="addbtn" data-add="oq" type="button">+ Add question</button>
+          <div class="hint">Anything the notes do not support. Better here than invented above.</div>
+        </div>
+      </div>
+
+      <div class="bar">
+        <button class="btn" id="go">Build review</button>
+        <div class="spacer"></div>
+        <span class="stat" id="goStat"></span>
       </div>
     </section>
 
     <section class="card">
       <div class="card-hd">
         <span class="rec-no">Post Incident Review</span>
-        <span class="rec-ti">Worked example</span>
         <div class="spacer"></div>
         <span class="pill res" id="rvPill" style="display:none">Complete</span>
       </div>
+      <div id="checks"></div>
       <div id="out">
         <div class="placeholder">
-          <b>No review generated yet.</b>
-          The review follows the structure most leadership teams expect: summary, impact, timeline, root cause, the conditions that allowed it, and corrective actions with owners.
-          <br><br>
-          This is a demonstration build. It renders a worked example rather than analysing the notes you enter, so it can run without an API key. The live version sends the notes to a model and returns a review written from them.
+          <b>No review built yet.</b>
+          Fill in the analysis above and press Build review. The checks that run are the ones that separate a retrospective people act on from one that gets filed: root cause distinguished from the conditions around it, and corrective actions specific enough that somebody can tell later whether they happened.
         </div>
       </div>
       <div class="bar" id="outBar" style="display:none">
@@ -290,131 +273,211 @@
 
 <script>
 const $ = id => document.getElementById(id);
-
-$('demo').onclick = () => {
-  $('svc').value = 'Label printing service';
-  $('who').value = '~400 users across 6 branch sites; outbound shipping halted';
-  $('dur').value = '3h 40m';
-  $('notes').value = `09:12  first ticket, warehouse can't print shipping labels
-09:20  three more sites reporting the same, escalated to me
-09:28  opened bridge, pulled in network and app owner
-09:35  ruled out the app, points at the print server
-10:05  restarted spooler service, no change
-10:22  checked event log, TLS handshake failures
-10:40  found the signing cert expired overnight, no alert fired
-11:15  renewed and deployed cert, labels printing at site 1
-11:48  rolling confirmation across remaining sites
-12:52  all six sites confirmed clear, bridge closed`;
-  $('hdTitle').textContent = 'Label printing outage across branch sites';
-};
-
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
-function render(r){
-  const list = a => (a||[]).map(x => `<li>${esc(x)}</li>`).join('');
-  const tl = (r.timeline||[]).map(e =>
-    `<tr><td class="t">${esc(e.time||'')}</td><td>${esc(e.event||'')}</td></tr>`).join('');
-  const ca = (r.corrective_actions||[]).map(a =>
-    `<tr><td>${esc(a.action||'')}</td><td>${esc(a.owner||'')}</td><td>${esc(a.due||'')}</td></tr>`).join('');
+/* ---------- repeatable rows ---------- */
+const CFG = {
+  cf:{el:'cfRows', ph:['No monitoring existed for certificate expiry dates.']},
+  ww:{el:'wwRows', ph:['Escalation was fast; four sites reporting triggered a bridge.']},
+  oq:{el:'oqRows', ph:['Whether other services depend on certificates with similar exposure.']},
+  ca:{el:'caRows', ph:['Build an inventory of certificates with owner and expiry.','IT Operations','30 days']}
+};
 
-  return `<div class="rv">
-    <h2>${esc(r.title||'Post incident review')}</h2>
-    <p class="sub">${esc(r.severity||'')}${r.duration ? ' &nbsp;&middot;&nbsp; ' + esc(r.duration) : ''}</p>
-    <h3>Summary</h3><p>${esc(r.summary||'')}</p>
-    <h3>Impact</h3><p>${esc(r.impact||'')}</p>
-    <h3>Timeline</h3><table class="tl">${tl}</table>
-    <h3>Root cause</h3><p>${esc(r.root_cause||'')}</p>
-    <h3>Contributing factors</h3><ul>${list(r.contributing_factors)}</ul>
-    <h3>What went well</h3><ul>${list(r.what_went_well)}</ul>
-    <h3>Corrective actions</h3>
-    <table class="ca"><thead><tr><th>Action</th><th>Owner</th><th>Target</th></tr></thead><tbody>${ca}</tbody></table>
-    ${(r.open_questions||[]).length ? `<h3>Open questions</h3><ul>${list(r.open_questions)}</ul>` : ''}
-  </div>`;
+function addRow(kind, vals){
+  const c = CFG[kind];
+  const wrap = document.createElement('div');
+  wrap.className = 'row';
+  if(kind === 'ca'){
+    wrap.innerHTML =
+      '<input placeholder="'+c.ph[0]+'">' +
+      '<input class="w-own" placeholder="'+c.ph[1]+'">' +
+      '<input class="w-due" placeholder="'+c.ph[2]+'">' +
+      '<button class="xbtn" type="button" aria-label="Remove">&times;</button>';
+  } else {
+    wrap.innerHTML =
+      '<input placeholder="'+c.ph[0]+'">' +
+      '<button class="xbtn" type="button" aria-label="Remove">&times;</button>';
+  }
+  if(vals){ wrap.querySelectorAll('input').forEach((inp,i)=>{ inp.value = vals[i]||''; }); }
+  wrap.querySelector('.xbtn').onclick = () => {
+    const parent = wrap.parentNode;
+    wrap.remove();
+    if(!parent.children.length) addRow(kind);
+  };
+  $(c.el).appendChild(wrap);
+}
+Object.keys(CFG).forEach(k => addRow(k));
+document.querySelectorAll('[data-add]').forEach(b => b.onclick = () => addRow(b.dataset.add));
+
+function readRows(kind){
+  const out = [];
+  $(CFG[kind].el).querySelectorAll('.row').forEach(r => {
+    const v = [...r.querySelectorAll('input')].map(i => i.value.trim());
+    if(v[0]) out.push(kind === 'ca' ? {action:v[0], owner:v[1], due:v[2]} : v[0]);
+  });
+  return out;
 }
 
-function asText(r){
-  const L = [r.title||'Post incident review', [r.severity,r.duration].filter(Boolean).join(' | ')];
-  L.push('','SUMMARY',r.summary||'','','IMPACT',r.impact||'','','TIMELINE');
-  (r.timeline||[]).forEach(e => L.push(`  ${e.time||''}  ${e.event||''}`));
-  L.push('','ROOT CAUSE',r.root_cause||'','','CONTRIBUTING FACTORS');
-  (r.contributing_factors||[]).forEach(x => L.push('  - '+x));
-  L.push('','WHAT WENT WELL');
-  (r.what_went_well||[]).forEach(x => L.push('  - '+x));
-  L.push('','CORRECTIVE ACTIONS');
-  (r.corrective_actions||[]).forEach(a => L.push(`  - ${a.action||''}${a.owner?' ('+a.owner+')':''}${a.due?' \u2014 '+a.due:''}`));
-  if((r.open_questions||[]).length){
-    L.push('','OPEN QUESTIONS');
-    r.open_questions.forEach(x => L.push('  - '+x));
+/* ---------- timeline from notes ---------- */
+let timeline = [];
+const TIME_RE = /^\s*(\d{1,2}[:.]\d{2}(?:\s*[ap]\.?m\.?)?)\s*[-\u2013\u2014)\]]?\s*(.+)$/i;
+
+function toMinutes(t){
+  const m = t.match(/(\d{1,2})[:.](\d{2})\s*([ap])?/i);
+  if(!m) return null;
+  let h = +m[1];
+  if(m[3]){ const pm = m[3].toLowerCase()==='p'; if(h===12) h=0; if(pm) h+=12; }
+  return h*60 + (+m[2]);
+}
+
+function buildTimeline(){
+  const lines = $('notes').value.split('\n');
+  timeline = [];
+  for(const ln of lines){
+    const m = ln.match(TIME_RE);
+    if(m) timeline.push({time:m[1].trim(), event:m[2].trim()});
   }
+  if(timeline.length >= 2){
+    const a = toMinutes(timeline[0].time), b = toMinutes(timeline[timeline.length-1].time);
+    if(a !== null && b !== null){
+      let d = b - a; if(d < 0) d += 24*60;
+      const h = Math.floor(d/60), mm = d%60;
+      $('dur').value = (h ? h+'h ' : '') + mm + 'm';
+    }
+  }
+  $('parseStat').textContent = timeline.length
+    ? timeline.length + ' timeline entries found'
+    : 'No lines starting with a time were found';
+}
+$('parse').onclick = buildTimeline;
+
+/* ---------- the checks: this is the tool ---------- */
+const VAGUE = /^(improve|review|monitor|consider|look into|enhance|better|evaluate|assess|explore|investigate)\b/i;
+
+function runChecks(d){
+  const w = [];
+  if(!d.root) w.push('<b>No root cause recorded.</b> A review without one documents that something happened, not why.');
+  if(!d.contributing.length) w.push('<b>No contributing factors.</b> Stopping at root cause usually means stopping at the proximate cause. What allowed it to happen, and to go undetected?');
+  if(d.timeline.length < 2) w.push('<b>Timeline has fewer than two entries.</b> Without it, nobody can tell where the time went.');
+  if(!d.actions.length) w.push('<b>No corrective actions.</b> If nothing changes, the same incident is scheduled rather than resolved.');
+  d.actions.forEach(a => {
+    if(!a.owner) w.push('<b>No owner:</b> &ldquo;'+esc(a.action.slice(0,58))+'&rdquo;. An action owned by everyone is done by no one.');
+    if(!a.due) w.push('<b>No target date:</b> &ldquo;'+esc(a.action.slice(0,58))+'&rdquo;. An action with no date is a wish.');
+    if(VAGUE.test(a.action) && a.action.split(/\s+/).length < 7)
+      w.push('<b>Too vague to verify:</b> &ldquo;'+esc(a.action)+'&rdquo;. Nobody can tell you in six weeks whether this happened.');
+  });
+  if(d.actions.length > 6) w.push('<b>'+d.actions.length+' corrective actions.</b> Four that get done beat twelve that get filed.');
+  if(!d.impact) w.push('<b>No impact recorded.</b> This is the part leadership reads.');
+  return w;
+}
+
+/* ---------- render ---------- */
+function render(d){
+  const list = a => a.map(x => '<li>'+esc(x)+'</li>').join('');
+  const tl = d.timeline.map(e => '<tr><td class="t">'+esc(e.time)+'</td><td>'+esc(e.event)+'</td></tr>').join('');
+  const ca = d.actions.map(a =>
+    '<tr><td>'+esc(a.action)+'</td><td>'+esc(a.owner||'&mdash;')+'</td><td>'+esc(a.due||'&mdash;')+'</td></tr>').join('');
+  let h = '<div class="rv"><h2>'+esc(d.title)+'</h2><p class="sub">'+esc(d.priority)+(d.duration?' &nbsp;&middot;&nbsp; '+esc(d.duration):'')+'</p>';
+  if(d.summary) h += '<h3>Summary</h3><p>'+esc(d.summary)+'</p>';
+  if(d.impact) h += '<h3>Impact</h3><p>'+esc(d.impact)+'</p>';
+  if(d.timeline.length) h += '<h3>Timeline</h3><table class="tl">'+tl+'</table>';
+  if(d.root) h += '<h3>Root cause</h3><p>'+esc(d.root)+'</p>';
+  if(d.contributing.length) h += '<h3>Contributing factors</h3><ul>'+list(d.contributing)+'</ul>';
+  if(d.wentWell.length) h += '<h3>What went well</h3><ul>'+list(d.wentWell)+'</ul>';
+  if(d.actions.length) h += '<h3>Corrective actions</h3><table class="ca"><thead><tr><th>Action</th><th>Owner</th><th>Target</th></tr></thead><tbody>'+ca+'</tbody></table>';
+  if(d.openQ.length) h += '<h3>Open questions</h3><ul>'+list(d.openQ)+'</ul>';
+  return h + '</div>';
+}
+
+function asText(d){
+  const L = [d.title, [d.priority,d.duration].filter(Boolean).join(' | ')];
+  if(d.summary){ L.push('','SUMMARY',d.summary); }
+  if(d.impact){ L.push('','IMPACT',d.impact); }
+  if(d.timeline.length){ L.push('','TIMELINE'); d.timeline.forEach(e=>L.push('  '+e.time+'  '+e.event)); }
+  if(d.root){ L.push('','ROOT CAUSE',d.root); }
+  if(d.contributing.length){ L.push('','CONTRIBUTING FACTORS'); d.contributing.forEach(x=>L.push('  - '+x)); }
+  if(d.wentWell.length){ L.push('','WHAT WENT WELL'); d.wentWell.forEach(x=>L.push('  - '+x)); }
+  if(d.actions.length){ L.push('','CORRECTIVE ACTIONS'); d.actions.forEach(a=>L.push('  - '+a.action+(a.owner?' ('+a.owner+')':'')+(a.due?' by '+a.due:''))); }
+  if(d.openQ.length){ L.push('','OPEN QUESTIONS'); d.openQ.forEach(x=>L.push('  - '+x)); }
   return L.join('\n');
 }
 
 let current = null;
 
-const SAMPLE_REVIEW = {
-  title: "Label printing outage across branch sites",
-  severity: "P2 \u2014 High",
-  duration: "3h 40m",
-  summary: "Shipping label printing failed across six branch sites for three hours and forty minutes. The expired code signing certificate used by the print service was not renewed before its expiration date, and no monitoring was in place to warn of the approaching expiry. Service was restored once the certificate was renewed and redeployed.",
-  impact: "Roughly 400 users across six branch sites were unable to print shipping labels. Outbound shipping was halted for the duration, delaying same-day dispatch. No data was lost and no customer records were affected.",
-  timeline: [
-    { time: "09:12", event: "First ticket raised from a warehouse site reporting label printing failure." },
-    { time: "09:20", event: "Three additional sites report the same symptom. Incident escalated." },
-    { time: "09:28", event: "Bridge opened with network and application owners." },
-    { time: "09:35", event: "Application ruled out. Investigation focuses on the print service." },
-    { time: "10:05", event: "Print spooler service restarted with no change in behaviour." },
-    { time: "10:22", event: "Event log review identifies TLS handshake failures." },
-    { time: "10:40", event: "Root cause identified: code signing certificate expired overnight." },
-    { time: "11:15", event: "Renewed certificate deployed. Printing restored at first site." },
-    { time: "11:48", event: "Rolling verification across remaining sites." },
-    { time: "12:52", event: "All six sites confirmed operational. Bridge closed." }
-  ],
-  root_cause: "The code signing certificate used by the print service reached its expiration date overnight. Once expired, the TLS handshake between the print clients and the print service failed, preventing any label from being generated.",
-  contributing_factors: [
-    "No monitoring or alerting existed for certificate expiry dates on the print service.",
-    "The certificate was not recorded in a tracked inventory, so no renewal reminder was generated.",
-    "The initial failure mode presented as a printing problem rather than a certificate problem, which directed early troubleshooting toward the application and spooler.",
-    "Certificate ownership was not clearly assigned to a named function, so no one was accountable for the renewal."
-  ],
-  what_went_well: [
-    "Escalation was fast. Four sites reporting within eight minutes triggered an incident bridge rather than parallel individual tickets.",
-    "The bridge brought network and application owners together early, which allowed the application to be ruled out within twenty-five minutes.",
-    "Once identified, remediation and rolling verification across all sites completed in under two hours."
-  ],
-  corrective_actions: [
-    { action: "Build an inventory of all certificates in the environment, with owner, expiry date, and dependent service recorded.", owner: "IT Operations", due: "Within 30 days" },
-    { action: "Add expiry monitoring with alerting at 60, 30, and 7 days before expiration.", owner: "IT Operations", due: "Within 30 days" },
-    { action: "Assign a named owning function for each certificate and include renewal in that function's recurring calendar.", owner: "IT Operations", due: "Within 30 days" },
-    { action: "Add a certificate check to the print service runbook so future printing incidents test for it early.", owner: "Service Desk", due: "Within 14 days" }
-  ],
-  open_questions: [
-    "Whether other services in the environment depend on certificates with similar renewal exposure. The inventory action should answer this.",
-    "Whether the certificate authority sends renewal notices and, if so, which mailbox they were delivered to."
-  ]
+$('go').onclick = () => {
+  if(!timeline.length) buildTimeline();
+  const d = {
+    title: $('ci').value.trim() ? $('ci').value.trim() + ' incident' : 'Post incident review',
+    priority: $('pri').value,
+    duration: $('dur').value.trim(),
+    who: $('who').value.trim(),
+    summary: $('summary').value.trim(),
+    impact: $('impact').value.trim(),
+    root: $('root').value.trim(),
+    contributing: readRows('cf'),
+    wentWell: readRows('ww'),
+    actions: readRows('ca'),
+    openQ: readRows('oq'),
+    timeline
+  };
+  if(d.who && d.impact && !d.impact.includes(d.who)) d.impact += ' Affected: ' + d.who + '.';
+  current = d;
+
+  const w = runChecks(d);
+  $('checks').innerHTML = w.length
+    ? '<div class="checks"><h5>'+w.length+' thing'+(w.length>1?'s':'')+' worth fixing before you send this</h5><ul>'+w.map(x=>'<li>'+x+'</li>').join('')+'</ul></div>'
+    : '<div class="checks clean"><h5>Checks passed</h5><ul><li>Root cause is recorded and separated from contributing factors. Every corrective action has an owner, a target, and language specific enough to verify.</li></ul></div>';
+
+  $('out').innerHTML = render(d);
+  $('outBar').style.display = 'flex';
+  $('rvPill').style.display = 'inline-block';
+  $('hdTitle').textContent = d.title;
+  $('goStat').textContent = '';
 };
 
-$('go').onclick = () => {
-  const notes = $('notes').value.trim();
-  $('err').innerHTML = '';
-  if(!notes){
-    $('err').innerHTML = '<div class="banner"><div><b>Work notes are required.</b>Paste the incident timeline, or load the sample incident.</div></div>';
-    return;
-  }
-  $('go').disabled = true;
-  $('status').innerHTML = 'Generating review<span class="dots">&hellip;</span>';
-  $('outBar').style.display = 'none';
-  $('rvPill').style.display = 'none';
+$('demo').onclick = () => {
+  $('ci').value = 'Label printing service';
+  $('who').value = '~400 users across 6 branch sites';
+  $('notes').value = `09:12  first ticket, warehouse can't print shipping labels
+09:20  three more sites reporting the same, escalated
+09:28  opened bridge, pulled in network and app owner
+09:35  ruled out the app, points at the print server
+10:05  restarted spooler service, no change
+10:22  event log shows TLS handshake failures
+10:40  signing cert expired overnight, no alert fired
+11:15  renewed and deployed cert, printing restored at site 1
+11:48  rolling confirmation across remaining sites
+12:52  all six sites confirmed clear, bridge closed`;
+  $('summary').value = 'Shipping label printing failed across six branch sites for just under four hours. The code signing certificate used by the print service expired overnight and nothing was monitoring its expiry date.';
+  $('impact').value = 'Outbound shipping was halted for the duration, delaying same-day dispatch. No data was lost and no customer records were affected.';
+  $('root').value = 'The code signing certificate used by the print service reached its expiration date overnight, after which the TLS handshake between print clients and the print service failed.';
 
-  // Demo build. Renders a worked example rather than calling a model.
-  setTimeout(() => {
-    current = SAMPLE_REVIEW;
-    $('out').innerHTML = render(current);
-    $('outBar').style.display = 'flex';
-    $('rvPill').style.display = 'inline-block';
-    $('hdTitle').textContent = current.title;
-    $('status').textContent = '';
-    $('go').disabled = false;
-  }, 900);
+  const fill = (kind, arr) => {
+    $(CFG[kind].el).innerHTML = '';
+    arr.forEach(v => addRow(kind, Array.isArray(v) ? v : [v]));
+  };
+  fill('cf', [
+    'No monitoring or alerting existed for certificate expiry dates on the print service.',
+    'The certificate was not in any tracked inventory, so no renewal reminder was generated.',
+    'The failure presented as a printing problem, which sent the first hour of troubleshooting toward the application and spooler.',
+    'Certificate ownership was not assigned to a named function.'
+  ]);
+  fill('ww', [
+    'Escalation was fast. Four sites reporting within eight minutes triggered a bridge rather than parallel individual tickets.',
+    'The bridge brought network and application owners together early, which ruled out the application within twenty-five minutes.'
+  ]);
+  fill('ca', [
+    ['Build an inventory of every certificate with owner, expiry date, and dependent service','IT Operations','30 days'],
+    ['Add expiry alerting at 60, 30, and 7 days before expiration','IT Operations','30 days'],
+    ['Add a certificate check to the print service runbook','Service Desk','14 days'],
+    ['Review monitoring','','']
+  ]);
+  fill('oq', [
+    'Whether other services depend on certificates with similar renewal exposure.',
+    'Whether the certificate authority sent renewal notices, and to which mailbox.'
+  ]);
+  buildTimeline();
+  $('hdTitle').textContent = 'Label printing outage across branch sites';
 };
 
 $('copy').onclick = async () => {
@@ -423,12 +486,11 @@ $('copy').onclick = async () => {
   $('copy').textContent = 'Copied';
   setTimeout(()=>{$('copy').textContent='Copy as text';},1600);
 };
-
 $('dl').onclick = () => {
   if(!current) return;
-  const blob = new Blob([asText(current)],{type:'text/plain'});
+  const b = new Blob([asText(current)],{type:'text/plain'});
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
+  a.href = URL.createObjectURL(b);
   a.download = 'post-incident-review.txt';
   a.click();
   URL.revokeObjectURL(a.href);
