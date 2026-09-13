@@ -1,10 +1,11 @@
 # Netlify configuration for the portfolio site
 # Deploy target: work.rashadmorgan.com (subdomain, so the root domain
 # can keep forwarding to LinkedIn without conflict)
+#
+# Static only. No build step, no serverless functions, no API key.
 
 [build]
   publish   = "public"
-  functions = "netlify/functions"
   # No build step. These are static files.
   command   = ""
 

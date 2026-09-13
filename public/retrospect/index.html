@@ -41,6 +41,11 @@
   }
   .brand{font-weight:900;letter-spacing:.02em;font-size:16px}
   .brand span{font-weight:400;opacity:.7}
+  .demo-tag{
+    font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;
+    padding:2px 8px;border-radius:10px;
+    background:rgba(255,255,255,.16);color:#fff;border:1px solid rgba(255,255,255,.3);
+  }
   .topbar .spacer{flex:1}
   .avatar{
     width:28px;height:28px;border-radius:50%;
@@ -181,6 +186,7 @@
 
 <div class="topbar">
   <div class="brand">Retrospect <span>| Incident Management</span></div>
+  <span class="demo-tag">Demo</span>
   <div class="spacer"></div>
   <div class="avatar">RM</div>
 </div>
@@ -262,6 +268,7 @@
     <section class="card">
       <div class="card-hd">
         <span class="rec-no">Post Incident Review</span>
+        <span class="rec-ti">Worked example</span>
         <div class="spacer"></div>
         <span class="pill res" id="rvPill" style="display:none">Complete</span>
       </div>
@@ -269,6 +276,8 @@
         <div class="placeholder">
           <b>No review generated yet.</b>
           The review follows the structure most leadership teams expect: summary, impact, timeline, root cause, the conditions that allowed it, and corrective actions with owners.
+          <br><br>
+          This is a demonstration build. It renders a worked example rather than analysing the notes you enter, so it can run without an API key. The live version sends the notes to a model and returns a review written from them.
         </div>
       </div>
       <div class="bar" id="outBar" style="display:none">
@@ -342,7 +351,49 @@ function asText(r){
 
 let current = null;
 
-$('go').onclick = async () => {
+const SAMPLE_REVIEW = {
+  title: "Label printing outage across branch sites",
+  severity: "P2 \u2014 High",
+  duration: "3h 40m",
+  summary: "Shipping label printing failed across six branch sites for three hours and forty minutes. The expired code signing certificate used by the print service was not renewed before its expiration date, and no monitoring was in place to warn of the approaching expiry. Service was restored once the certificate was renewed and redeployed.",
+  impact: "Roughly 400 users across six branch sites were unable to print shipping labels. Outbound shipping was halted for the duration, delaying same-day dispatch. No data was lost and no customer records were affected.",
+  timeline: [
+    { time: "09:12", event: "First ticket raised from a warehouse site reporting label printing failure." },
+    { time: "09:20", event: "Three additional sites report the same symptom. Incident escalated." },
+    { time: "09:28", event: "Bridge opened with network and application owners." },
+    { time: "09:35", event: "Application ruled out. Investigation focuses on the print service." },
+    { time: "10:05", event: "Print spooler service restarted with no change in behaviour." },
+    { time: "10:22", event: "Event log review identifies TLS handshake failures." },
+    { time: "10:40", event: "Root cause identified: code signing certificate expired overnight." },
+    { time: "11:15", event: "Renewed certificate deployed. Printing restored at first site." },
+    { time: "11:48", event: "Rolling verification across remaining sites." },
+    { time: "12:52", event: "All six sites confirmed operational. Bridge closed." }
+  ],
+  root_cause: "The code signing certificate used by the print service reached its expiration date overnight. Once expired, the TLS handshake between the print clients and the print service failed, preventing any label from being generated.",
+  contributing_factors: [
+    "No monitoring or alerting existed for certificate expiry dates on the print service.",
+    "The certificate was not recorded in a tracked inventory, so no renewal reminder was generated.",
+    "The initial failure mode presented as a printing problem rather than a certificate problem, which directed early troubleshooting toward the application and spooler.",
+    "Certificate ownership was not clearly assigned to a named function, so no one was accountable for the renewal."
+  ],
+  what_went_well: [
+    "Escalation was fast. Four sites reporting within eight minutes triggered an incident bridge rather than parallel individual tickets.",
+    "The bridge brought network and application owners together early, which allowed the application to be ruled out within twenty-five minutes.",
+    "Once identified, remediation and rolling verification across all sites completed in under two hours."
+  ],
+  corrective_actions: [
+    { action: "Build an inventory of all certificates in the environment, with owner, expiry date, and dependent service recorded.", owner: "IT Operations", due: "Within 30 days" },
+    { action: "Add expiry monitoring with alerting at 60, 30, and 7 days before expiration.", owner: "IT Operations", due: "Within 30 days" },
+    { action: "Assign a named owning function for each certificate and include renewal in that function's recurring calendar.", owner: "IT Operations", due: "Within 30 days" },
+    { action: "Add a certificate check to the print service runbook so future printing incidents test for it early.", owner: "Service Desk", due: "Within 14 days" }
+  ],
+  open_questions: [
+    "Whether other services in the environment depend on certificates with similar renewal exposure. The inventory action should answer this.",
+    "Whether the certificate authority sends renewal notices and, if so, which mailbox they were delivered to."
+  ]
+};
+
+$('go').onclick = () => {
   const notes = $('notes').value.trim();
   $('err').innerHTML = '';
   if(!notes){
@@ -354,47 +405,16 @@ $('go').onclick = async () => {
   $('outBar').style.display = 'none';
   $('rvPill').style.display = 'none';
 
-  const prompt = `You are an experienced incident commander writing a blameless post incident review for an internal IT operations audience.
-
-Configuration item: ${$('svc').value || 'not specified'}
-Priority: ${$('sev').value}
-Time to resolve: ${$('dur').value || 'not specified'}
-Affected users: ${$('who').value || 'not specified'}
-
-Work notes and timeline:
-${notes}
-
-Write the review. Rules:
-- Blameless. Describe systems and conditions, never individuals at fault.
-- Separate the root cause from the contributing factors that allowed it to happen or persist undetected.
-- Corrective actions must be specific and verifiable, not "improve monitoring". Give a plausible owning function and a rough target.
-- If the notes do not support a conclusion, put it in open_questions rather than inventing detail.
-- Plain language a business reader can follow.
-
-Respond with ONLY valid JSON, no markdown fences, no preamble, exactly this shape:
-{"title":"","severity":"","duration":"","summary":"","impact":"","timeline":[{"time":"","event":""}],"root_cause":"","contributing_factors":[""],"what_went_well":[""],"corrective_actions":[{"action":"","owner":"","due":""}],"open_questions":[""]}`;
-
-  try{
-    const res = await fetch("/api/anthropic",{
-      method:"POST",
-      headers:{"Content-Type":"application/json"},
-      body:JSON.stringify({ prompt })
-    });
-    if(!res.ok) throw new Error("proxy " + res.status);
-    const data = await res.json();
-    const text = (data.text || "").trim();
-    current = JSON.parse(text.replace(/```json|```/g,'').trim());
+  // Demo build. Renders a worked example rather than calling a model.
+  setTimeout(() => {
+    current = SAMPLE_REVIEW;
     $('out').innerHTML = render(current);
     $('outBar').style.display = 'flex';
     $('rvPill').style.display = 'inline-block';
-    if(current.title) $('hdTitle').textContent = current.title;
+    $('hdTitle').textContent = current.title;
     $('status').textContent = '';
-  }catch(e){
-    $('err').innerHTML = '<div class="banner"><div><b>The review did not come back cleanly.</b>Try again, or shorten the notes if the timeline is very long.</div></div>';
-    $('status').textContent = '';
-  }finally{
     $('go').disabled = false;
-  }
+  }, 900);
 };
 
 $('copy').onclick = async () => {
