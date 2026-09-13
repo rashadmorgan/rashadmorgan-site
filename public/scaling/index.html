@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scaling Faster Than Headcount | Rashad Morgan</title>
+<meta name="description" content="What it actually takes to absorb four times the demand on two and a half times the team.">
+<meta property="og:title" content="Scaling Faster Than Headcount">
+<meta property="og:description" content="What it actually takes to absorb four times the demand on two and a half times the team.">
+<meta property="og:type" content="article">
+<style>
+:root{
+  --ink:#15181C; --body:#2B3138; --mute:#6C737B;
+  --navy:#1B3A63; --slate:#4E6178; --rule:#D9DFE6; --paper:#FCFCFB;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--body);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:17px; line-height:1.68;
+}
+.wrap{max-width:720px; margin:0 auto; padding:64px 28px 96px}
+header{border-bottom:2px solid var(--navy); padding-bottom:26px; margin-bottom:12px}
+h1{
+    font-size:42px; line-height:1.06; margin:0 0 16px;
+    color:var(--ink); letter-spacing:-.022em; font-weight:400;
+    transform:scaleY(1.16); transform-origin:left bottom;
+    display:inline-block;
+  }
+.deck{
+  font-size:19px; color:var(--slate); margin:6px 0 20px;
+  font-style:italic; line-height:1.42;
+}
+.byline{
+  font-family:"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--navy); margin:0; font-weight:600;
+}
+h2{
+  font-family:"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:15px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--navy); font-weight:700;
+  margin:48px 0 4px; padding-bottom:7px;
+  border-bottom:1px solid var(--rule);
+}
+p{margin:0 0 17px}
+h2 + p{margin-top:18px}
+strong{color:var(--ink); font-weight:700}
+em{color:var(--ink)}
+ul{margin:0 0 20px; padding-left:22px}
+li{margin-bottom:9px}
+li::marker{color:var(--slate)}
+hr{border:0; height:1px; background:var(--rule); margin:44px 0}
+hr + h2{margin-top:8px}
+.bio{
+  font-size:15px; color:var(--mute); line-height:1.6;
+  border-left:3px solid var(--rule); padding-left:16px; margin-top:6px;
+}
+.bio em{color:var(--mute); font-style:italic}
+@media print{
+  body{background:#fff; font-size:11.2pt; line-height:1.55}
+  .wrap{max-width:none; padding:0}
+  h1{font-size:27pt; transform:scaleY(1.14)}
+  .deck{font-size:13pt}
+  h2{font-size:10.5pt; margin:26pt 0 3pt; page-break-after:avoid}
+  h2 + p, h2 + ul{page-break-before:avoid}
+  p,li{orphans:3; widows:3}
+  hr{margin:22pt 0}
+}
+@media (max-width:640px){
+  .wrap{padding:40px 20px 64px}
+  h1{font-size:32px; transform:scaleY(1.13)}
+  body{font-size:16px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Scaling Faster Than Headcount</h1>
+<p class="deck">What it actually takes to absorb four times the demand on two and a half times the team</p>
+<p class="byline">By Rashad Morgan</p>
+</header>
+<p>Every job description for an IT leader says some version of the same thing: build a function that scales without relying on headcount growth. It appears in postings for service desk managers and in postings for vice presidents. It is the most commonly stated expectation in the field and one of the least commonly explained.</p>
+<p>Here is what I have learned about doing it.</p>
+<hr>
+<h2>The ratio is a result, not a goal</h2>
+<p>Nobody sets out to improve users per technician. You set out to keep the service working while the business grows, and the ratio is what you notice afterward when you look at what happened.</p>
+<p>That distinction matters because the ratio can be improved two ways. One is by building a function that absorbs more work with the same effort. The other is by letting service quality degrade slowly enough that nobody files a complaint until the damage is done.</p>
+<p>Both produce the same number on a slide. Only one is worth anything.</p>
+<p>So the honest framing is not &quot;how do I improve the ratio&quot; but &quot;what is consuming my team&#x27;s time, and which of those things should not exist.&quot; The ratio follows.</p>
+<hr>
+<h2>Find the work that should not exist</h2>
+<p>Before automating anything, spend a month reading tickets. Not the dashboard, the tickets.</p>
+<p>What you are looking for is not the most frequent category. Every service desk knows password resets are the top category. What you are looking for is the work that exists because of a decision somebody made, and which would disappear if that decision were different.</p>
+<p>Some examples of what that looks like:</p>
+<p><strong>A request that only exists because a process is manual.</strong> If provisioning a new hire takes eleven steps across four systems, every new hire generates a ticket, and every mistake in those steps generates another. The volume is not a support problem. It is a process problem arriving at the service desk.</p>
+<p><strong>A question that only exists because the answer is hard to find.</strong> When the same question arrives twenty times, the users are not the problem. Nobody wakes up wanting to file a ticket. They filed it because the answer was not where they looked.</p>
+<p><strong>An incident that only exists because a previous incident was resolved rather than fixed.</strong> This is the most expensive category and the least visible, because each instance looks like a new problem.</p>
+<p>None of these are solved by hiring. Hiring lets you absorb them faster.</p>
+<hr>
+<h2>Automate the lifecycle before anything else</h2>
+<p>If you do one thing, automate joiners, movers, and leavers.</p>
+<p>It is the highest-value automation in an IT function and it is consistently underrated because it does not feel urgent. Nobody escalates a slow onboarding the way they escalate an outage. It just quietly costs a few hours of skilled time per person, every time, forever.</p>
+<p>The compounding value is what makes it worth doing first:</p>
+<ul>
+<li><strong>It scales with the business.</strong> Every acquisition, every hiring wave, every reorganization runs through the same path.</li>
+<li><strong>It eliminates a class of error rather than a volume of tickets.</strong> Manual provisioning produces inconsistent access, which produces access requests later, which produces audit findings later still.</li>
+<li><strong>It becomes infrastructure.</strong> The provisioning path you build for your own company is the path you reuse when you absorb someone else&#x27;s.</li>
+</ul>
+<p>That last point is the one I did not anticipate. Automation built for internal efficiency turned out to be the thing that made absorbing new populations tractable.</p>
+<hr>
+<h2>Self-service only works if it is better than asking</h2>
+<p>Most knowledge bases fail. They fail for a reason that has nothing to do with the tooling.</p>
+<p>A user chooses between two options: search the knowledge base, or ask a person who will definitely know. Asking wins unless searching is genuinely faster and genuinely reliable. If the article is out of date, or written for a different version, or written by someone explaining what they did rather than what the user should do, the user learns that searching is a waste of time. They learn it once and they do not come back.</p>
+<p>What actually works:</p>
+<p><strong>Write from the ticket, not from the system.</strong> The article should answer the question as it was asked, using the words the user used, not the words the product documentation uses.</p>
+<p><strong>Write the ones that are asked most, and nothing else.</strong> A knowledge base with forty accurate articles beats one with four hundred of unknown quality, because the user can trust it.</p>
+<p><strong>Put it where the question is asked.</strong> An article nobody can find does not exist. If the answer surfaces at the moment of ticket creation, deflection happens without anyone choosing to self-serve.</p>
+<p><strong>Measure contact rate, not article views.</strong> Views tell you people looked. Contact rate tells you whether they still needed you afterward.</p>
+<hr>
+<h2>Triage is where the leverage is</h2>
+<p>The difference between a service desk that scales and one that does not is usually not the tooling. It is whether work reaches the right person the first time.</p>
+<p>Every reassignment costs context. The user re-explains. The new technician re-diagnoses. The elapsed time doubles and the perceived service quality drops even though total effort went up.</p>
+<p>Improving this is unglamorous:</p>
+<ul>
+<li>Categories that reflect how work actually arrives, not how the org chart is drawn</li>
+<li>Enough information captured at intake that the first person can act</li>
+<li>Clear rules for what gets escalated and what gets solved where it landed</li>
+<li>Somebody reviewing misrouted tickets weekly and asking why</li>
+</ul>
+<p>None of that is a project. It is a habit. But a service desk where most work is resolved at first touch operates at a fundamentally different cost per ticket than one where it bounces.</p>
+<hr>
+<h2>Proactive means finding it before they do</h2>
+<p>The strongest version of this is the work nobody thanks you for.</p>
+<p>When a monitoring alert fires and the issue is resolved before users notice, no ticket is created. That ticket does not appear in your volume numbers, which means the most valuable work your team does is invisible in the metric you report.</p>
+<p>This has a practical consequence. If you measure only tickets closed, you will systematically undervalue prevention, and so will everyone reading your reports. Find a way to count what did not happen: incidents caught by monitoring before user impact, recurring issues eliminated, requests removed by process change.</p>
+<p>You will not get that measurement perfect. Report it anyway, because the alternative is a service desk incentivized to be busy rather than effective.</p>
+<hr>
+<h2>What this costs</h2>
+<p>Three honest caveats, because the framing of doing more with less is usually deployed by people who are not doing the work.</p>
+<p><strong>There is a floor.</strong> Automation reduces effort per unit of work. It does not eliminate the need for people who can handle the thing nobody anticipated. A team stretched past its floor does not fail visibly. It stops doing the improvement work that got it there, and the ratio quietly reverses.</p>
+<p><strong>The gains are front-loaded and then flatten.</strong> The first round of automation removes the obvious waste. The second round is harder and returns less. Anyone projecting a straight line from early gains is going to be wrong.</p>
+<p><strong>Somebody has to have time to build it.</strong> This is the paradox. A team at capacity cannot automate its way out, because automation is a project and projects need slack. Creating that slack, deliberately, while the queue is full, is the actual leadership decision. Everything else follows from it.</p>
+<hr>
+<h2>The part that is not technical</h2>
+<p>Improving a ratio can mean two very different things to the people inside it.</p>
+<p>It can mean a team that stopped doing repetitive work and started doing work that uses their judgment. Or it can mean a team doing the same work faster under more pressure, watching the target move every time they hit it.</p>
+<p>The difference is whether the efficiency came from removing work or from removing recovery time. The number on the report looks identical either way. The retention rate does not.</p>
+<hr>
+<p class="bio"><em>Rashad Morgan leads shared services IT for a multi-brand industrial distribution group, where a merger and three acquisitions taught him most of what is in this piece. His part of the work is identity, service management, and end user support.</em></p>
+<p style="margin-top:44px;font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:13px">
+<a href="/" style="color:#1B3A63;text-decoration:none;border-bottom:1px solid #D9DFE6">More writing</a>
+</p>
+</div>
+</body>
+</html>

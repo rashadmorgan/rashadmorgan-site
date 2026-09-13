@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Root Cause Is the Deliverable | Rashad Morgan</title>
+<meta name="description" content="Why most incidents get resolved and so few get fixed.">
+<meta property="og:title" content="Root Cause Is the Deliverable">
+<meta property="og:description" content="Why most incidents get resolved and so few get fixed.">
+<meta property="og:type" content="article">
+<style>
+:root{
+  --ink:#15181C; --body:#2B3138; --mute:#6C737B;
+  --navy:#1B3A63; --slate:#4E6178; --rule:#D9DFE6; --paper:#FCFCFB;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--body);
+  font-family:Georgia,"Times New Roman",serif;
+  font-size:17px; line-height:1.68;
+}
+.wrap{max-width:720px; margin:0 auto; padding:64px 28px 96px}
+header{border-bottom:2px solid var(--navy); padding-bottom:26px; margin-bottom:12px}
+h1{
+    font-size:42px; line-height:1.06; margin:0 0 16px;
+    color:var(--ink); letter-spacing:-.022em; font-weight:400;
+    transform:scaleY(1.16); transform-origin:left bottom;
+    display:inline-block;
+  }
+.deck{
+  font-size:19px; color:var(--slate); margin:6px 0 20px;
+  font-style:italic; line-height:1.42;
+}
+.byline{
+  font-family:"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--navy); margin:0; font-weight:600;
+}
+h2{
+  font-family:"Segoe UI",Helvetica,Arial,sans-serif;
+  font-size:15px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--navy); font-weight:700;
+  margin:48px 0 4px; padding-bottom:7px;
+  border-bottom:1px solid var(--rule);
+}
+p{margin:0 0 17px}
+h2 + p{margin-top:18px}
+strong{color:var(--ink); font-weight:700}
+em{color:var(--ink)}
+ul{margin:0 0 20px; padding-left:22px}
+li{margin-bottom:9px}
+li::marker{color:var(--slate)}
+hr{border:0; height:1px; background:var(--rule); margin:44px 0}
+hr + h2{margin-top:8px}
+.bio{
+  font-size:15px; color:var(--mute); line-height:1.6;
+  border-left:3px solid var(--rule); padding-left:16px; margin-top:6px;
+}
+.bio em{color:var(--mute); font-style:italic}
+@media print{
+  body{background:#fff; font-size:11.2pt; line-height:1.55}
+  .wrap{max-width:none; padding:0}
+  h1{font-size:27pt; transform:scaleY(1.14)}
+  .deck{font-size:13pt}
+  h2{font-size:10.5pt; margin:26pt 0 3pt; page-break-after:avoid}
+  h2 + p, h2 + ul{page-break-before:avoid}
+  p,li{orphans:3; widows:3}
+  hr{margin:22pt 0}
+}
+@media (max-width:640px){
+  .wrap{padding:40px 20px 64px}
+  h1{font-size:32px; transform:scaleY(1.13)}
+  body{font-size:16px}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><h1>Root Cause Is the Deliverable</h1>
+<p class="deck">Why most incidents get resolved and so few get fixed</p>
+<p class="byline">By Rashad Morgan</p>
+</header>
+<p>There is a number most IT organizations do not track, and it is the one that matters most.</p>
+<p>Not tickets closed. Not mean time to resolve. Not SLA adherence. The number is: how many of this month&#x27;s incidents were the same as last month&#x27;s incidents.</p>
+<p>Resolution and elimination look identical on a dashboard. Both close the ticket. Only one of them means the problem is gone.</p>
+<hr>
+<h2>The difference between closing and fixing</h2>
+<p>An incident is closed when service is restored. That is the correct definition and the right thing to optimize during the event itself. Nobody wants the incident commander pausing to theorize while the warehouse cannot ship.</p>
+<p>But the moment service is restored, the incentive to understand what happened drops to almost nothing. The pressure is off. The queue has backed up. Somebody has a meeting. The ticket says resolved, and by every measure the organization tracks, it is.</p>
+<p>This is how an environment accumulates problems that are permanently resolved and never fixed. Each instance is handled competently. The aggregate is a service desk spending a growing share of its capacity on things it has already seen.</p>
+<hr>
+<h2>Root cause is not the first thing you found</h2>
+<p>The most common failure in post-incident analysis is stopping at the proximate cause.</p>
+<p>A certificate expired. That is what happened. It is not the root cause, because it does not explain why an expiry that was knowable in advance surprised everyone, and it does not tell you what to change.</p>
+<p>A more useful analysis separates two questions:</p>
+<p><strong>What broke?</strong> The certificate expired and the service stopped authenticating.</p>
+<p><strong>What allowed it to break, and to stay broken for three hours?</strong> Nothing monitored expiry dates. The certificate was not in any inventory. Ownership was not assigned to a named function. And the failure presented as a printing problem, which sent the first hour of troubleshooting in the wrong direction.</p>
+<p>The first question produces one corrective action: renew the certificate. Done, and it will happen again with a different certificate.</p>
+<p>The second produces four, and they address a class of failure rather than one instance.</p>
+<p>That is the whole discipline. Root cause is what broke. Contributing factors are what let it break, let it go undetected, and made it take longer to find than it should have. Most of the value is in the second list.</p>
+<hr>
+<h2>Blameless is a practical choice, not a nice one</h2>
+<p>Blameless retrospectives are usually justified in terms of culture and psychological safety, which is true and also makes them sound optional.</p>
+<p>The practical argument is stronger. If naming what happened is risky, you will not find out what happened.</p>
+<p>The person who knows why the check was skipped, or why the runbook said one thing and the team did another, or what was tried at 10:05 that did not work, is the person with the most exposure. If the retrospective is a search for who, that person tells you the minimum. Your analysis is then built on a partial account, and the corrective actions address a story rather than the event.</p>
+<p>Blameless is how you get accurate information. Everything else follows from that.</p>
+<p>Which also means blameless does not mean consequence-free at an organizational level. A retrospective that concludes &quot;someone should be more careful&quot; has failed, but so has one that concludes nothing needs to change. The output is systems and conditions, not absolution.</p>
+<hr>
+<h2>Corrective actions that survive contact with next week</h2>
+<p>Most corrective action lists are written under time pressure at the end of a long week, and it shows. They contain items like &quot;improve monitoring,&quot; &quot;review the process,&quot; or &quot;add documentation.&quot;</p>
+<p>None of those can be verified. Nobody can tell you six weeks later whether monitoring was improved. So nobody checks, and the action quietly expires.</p>
+<p>A corrective action worth writing has three properties:</p>
+<p><strong>It is specific enough to be finished.</strong> &quot;Add expiry alerting at 60, 30, and 7 days for every certificate in the inventory&quot; either happened or it did not.</p>
+<p><strong>It has an owning function.</strong> Not a person, a function, because people move. If nothing owns it, it belongs to everyone and will be done by no one.</p>
+<p><strong>It has a target date, and the date is honest.</strong> An action with no date is a wish. An action with a date nobody believes is worse, because it teaches the team that retrospective outputs are theater.</p>
+<p>And one more: the list should be short. Four actions that get done beat twelve that get filed.</p>
+<hr>
+<h2>Trend analysis is how you find what no single incident shows</h2>
+<p>Some problems are invisible at the level of an individual ticket and obvious in aggregate.</p>
+<p>A site that generates twice the tickets per user of any other. An application that fails every month on a predictable day. A category of request that spiked when a process changed and never came back down. None of these produce an incident anyone escalates. Each one is handled, closed, and forgotten.</p>
+<p>You find these by looking at ticket history as data rather than as a queue. Group by site, by application, by category, by time. Look for the shapes that should not be there.</p>
+<p>This does not require sophisticated tooling. Most of what I have found came out of a query and a chart. What it requires is the deliberate decision that somebody spends time each month looking backward rather than only working the queue.</p>
+<p>That decision is easy to postpone and easy to defend postponing. It is also the single highest-return hour in the month, because a recurring problem eliminated pays back every month afterward.</p>
+<hr>
+<h2>What to measure</h2>
+<p>If you want an organization to fix things rather than resolve them, measure the thing you want:</p>
+<p><strong>Recurrence rate.</strong> What share of this period&#x27;s incidents match a previous incident. This is the headline number and almost nobody reports it.</p>
+<p><strong>Corrective action completion.</strong> What share of actions from the last quarter&#x27;s retrospectives are actually done. If this is low, retrospectives are a ritual.</p>
+<p><strong>Problems eliminated.</strong> Count them explicitly. It is the only way prevention shows up in a report at all, since successful prevention produces no ticket.</p>
+<p><strong>Repeat contact rate.</strong> How often the same user comes back about the same thing. A high number here usually means tickets are being closed rather than resolved.</p>
+<p>These are harder to produce than tickets closed, and they will make your volume numbers look worse in the short term, because eliminating recurring work reduces volume. That is the point, and it is worth explaining to leadership before the numbers move rather than after.</p>
+<hr>
+<h2>The habit underneath all of it</h2>
+<p>None of this is complicated. It is a set of choices made repeatedly under conditions that discourage them.</p>
+<p>The choice to spend an hour understanding an incident that is already over. The choice to write four specific actions instead of twelve vague ones and then to check whether they happened. The choice to look at last quarter&#x27;s tickets when this quarter&#x27;s queue is full.</p>
+<p>Every one of those choices costs time now and pays back later, which is the least persuasive structure a decision can have. Making them anyway, consistently, is most of what separates a service desk that gets quieter over time from one that gets busier.</p>
+<hr>
+<p class="bio"><em>Rashad Morgan leads shared services IT for a multi-brand industrial distribution group. His part of the work is identity, service management, and end user support. He also built <a href="/retrospect/">Retrospect</a>, a tool that turns raw incident notes into a structured post incident review.</em></p>
+<p style="margin-top:44px;font-family:'Segoe UI',Helvetica,Arial,sans-serif;font-size:13px">
+<a href="/" style="color:#1B3A63;text-decoration:none;border-bottom:1px solid #D9DFE6">More writing</a>
+</p>
+</div>
+</body>
+</html>
